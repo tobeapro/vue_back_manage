@@ -1,16 +1,16 @@
 <template>
 <div class="login">
-  <div class="login-form">
+  <div class="login-form" @keyup.enter="register">
     <h1>{{ msg }}</h1>
     <el-form :model="checkData" ref="registerForm" :rules="registerRules" label-width="80px">
       <el-form-item label="注册账号" prop="name">
-        <el-input v-model="checkData.name" placeholder="请输入注册账号" clearable></el-input>
+        <el-input v-model.trim="checkData.name" placeholder="请输入注册账号" clearable></el-input>
       </el-form-item>
       <el-form-item label="注册密码" prop="password">
-        <el-input type="password" v-model="checkData.password" placeholder="请输入注册密码" clearable></el-input>
+        <el-input type="password" v-model.trim="checkData.password" placeholder="请输入注册密码" clearable></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="confirmPassword">
-        <el-input type="password" v-model="checkData.confirmPassword" placeholder="请确认注册密码" clearable></el-input>
+        <el-input type="password" v-model.trim="confirmPwd" placeholder="请确认注册密码" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" class="login-in" @click="register">注册</el-button>
@@ -23,13 +23,14 @@
 </template>
 
 <script>
+import qs from 'qs'
 export default {
   name: 'regiser',
   data () {
     let validatePassword = (rule, value, callback) => {
-      if (value === '') {
+      if (this.confirmPwd === '') {
         callback(new Error('请再次输入密码'))
-      } else if (value !== this.checkData.password) {
+      } else if (this.confirmPwd !== this.checkData.password) {
         callback(new Error('两次输入密码不一致!'))
       } else {
         callback()
@@ -39,9 +40,9 @@ export default {
       msg: '后台管理系统',
       checkData: {
         name: '',
-        password: '',
-        confirmPassword: ''
+        password: ''
       },
+      confirmPwd: '',
       registerRules: {
         name: [{
           required: true,
@@ -52,8 +53,13 @@ export default {
           required: true,
           message: '请输入注册密码',
           trigger: 'blur'
+        },
+        {
+          pattern: /^\S{5,20}$/,
+          message: '密码长度为5-20位'
         }],
         confirmPassword: [{
+          required: true,
           validator: validatePassword,
           trigger: 'blur'
         }]
@@ -64,10 +70,13 @@ export default {
     register () {
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
-          let data = new FormData(this.checkData)
-          this.axios.post(window.APIHOST + 'api/loginIn', data).then(res => {
+          let data = qs.stringify(this.checkData)
+          this.axios.post(window.APIHOST + 'api/register', data).then(res => {
             if (res.data.result === 1) {
               this.$message.success('注册成功')
+              this.$router.push('/')
+            } else if (res.data.result === 2) {
+              this.$message.warning(res.data.msg)
             } else {
               this.$message.error('注册失败')
             }

@@ -15,11 +15,11 @@ Vue.use(ElementUI)
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 
-// const DEVSERVER = 'http://localhost:2000/back_manage/'
-const MOCKSERVER = ' https://easy-mock.com/mock/5ac1c0ef1756cd3c4ce8f562/back_manage/'
+const DEVSERVER = 'http://localhost:4000/back_manage/'
+// const MOCKSERVER = ' https://easy-mock.com/mock/5ac1c0ef1756cd3c4ce8f562/back_manage/'
 const PRODSERVER = '/back_manage/'
 if (process.env.NODE_ENV === 'development') {
-  global.APIHOST = MOCKSERVER
+  global.APIHOST = DEVSERVER
 } else if (process.env.NODE_ENV === 'production') {
   global.APIHOST = PRODSERVER
 }
