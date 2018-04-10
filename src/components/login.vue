@@ -68,6 +68,9 @@ export default {
   },
   mounted () {
     this.getCaptcha()
+    if (document.domain !== 'localhost' && document.domain !== 'localhost:3000') {
+      window.location.href = 'http://localhost:4000'
+    }
   },
   methods: {
     login () {
@@ -75,7 +78,7 @@ export default {
         if (valid) {
           let data = qs.stringify(this.formData)
           this.$nextTick(() => {
-            this.axios.post(window.APIHOST + 'api/login', data).then(res => {
+            this.axios.post('/back_manage/api/login', data, {timeout: 6000}).then(res => {
               if (res.data.result === 1) {
                 this.$message.success('登陆成功')
                 this.$router.push('/home')
@@ -97,7 +100,7 @@ export default {
       })
     },
     getCaptcha () {
-      this.axios.get(window.APIHOST + 'api/captcha').then(res => {
+      this.axios.get('/back_manage/api/captcha').then(res => {
         if (res.data.result === 1) {
           this.captchaImg = res.data.data
           this.captchaText = res.data.text.toLowerCase()

@@ -10,7 +10,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/back_manage': {
+        target: 'http://localhost:4000/back_manage/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/back_manage': '/'
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

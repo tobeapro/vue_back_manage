@@ -71,7 +71,7 @@ export default {
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
           let data = qs.stringify(this.checkData)
-          this.axios.post(window.APIHOST + 'api/register', data).then(res => {
+          this.axios.post('/back_manage/api/register', data, {timeout: 6000}).then(res => {
             if (res.data.result === 1) {
               this.$message.success('注册成功')
               this.$router.push('/')

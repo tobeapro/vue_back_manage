@@ -7,8 +7,8 @@ router.get('/', (req, res) => {
 })
 // 生成验证码
 router.get('/back_manage/api/captcha', (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
-  res.header('Access-Control-Request-Method', 'GET')
+  // res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
+  // res.header('Access-Control-Request-Method', 'GET')
   let captcha = svgCaptcha.create({
     noise: 4,
     width: 120,
@@ -19,8 +19,8 @@ router.get('/back_manage/api/captcha', (req, res, next) => {
 })
 // 登陆
 router.post('/back_manage/api/login', (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
-  res.header('Access-Control-Request-Method', 'POST')
+  // res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
+  // res.header('Access-Control-Request-Method', 'POST')
   models.user.find({
     name: req.body.name,
     password: req.body.password
@@ -44,10 +44,8 @@ router.post('/back_manage/api/login', (req, res, next) => {
 })
 // 注册
 router.post('/back_manage/api/register', (req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
-  res.header('Access-Control-Request-Method', 'POST')
-  // res.header('Access-Control-Allow-Headers', 'content-type')
-  // res.header('Content-Type', 'application/json;charset=utf-8')
+  // res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
+  // res.header('Access-Control-Request-Method', 'POST')
   models.user.find({
     name: req.body.name
   }, (err, data) => {
