@@ -66,6 +66,11 @@ export default {
       captchaText: ''
     }
   },
+  created () {
+    if (sessionStorage.getItem('name')) {
+      this.formData.name = sessionStorage.getItem('name')
+    }
+  },
   mounted () {
     this.getCaptcha()
     if (document.domain !== 'localhost' && document.domain !== 'localhost:3000') {
@@ -80,7 +85,8 @@ export default {
           this.$nextTick(() => {
             this.axios.post('/back_manage/api/login', data, {timeout: 6000}).then(res => {
               if (res.data.result === 1) {
-                this.$message.success('登陆成功')
+                this.$message.success(res.data.msg)
+                sessionStorage.setItem('name', this.formData.name)
                 this.$router.push('/home')
               } else if (res.data.result === 2) {
                 this.$message.warning(res.data.msg)

@@ -30,12 +30,24 @@ export default {
   name: 'layout',
   data () {
     return {
-
     }
   },
   computed: {
+    name () {
+      return sessionStorage.getItem('name') ? sessionStorage.getItem('name') : ''
+    },
     activeIndex () {
       return this.$route.path.split('/')[1]
+    }
+  },
+  mounted () {
+    if (!this.name) {
+      this.$alert('请重新登录', '提示', {
+        type: 'warning',
+        callback: () => {
+          this.$router.push('/')
+        }
+      })
     }
   }
 }

@@ -30,10 +30,20 @@ router.post('/back_manage/api/login', (req, res, next) => {
       next()
     }
     if (data.length) {
-      res.send({
-        result: 1,
-        msg: '登陆成功'
-      }).end()
+      console.log(req.session)
+      if (req.session.isLogin && req.session.name === req.body.name) {
+        res.send({
+          result: 1,
+          msg: '欢迎回来'
+        }).end()
+      } else {
+        req.session.isLogin = true
+        req.session.name = req.body.name
+        res.send({
+          result: 1,
+          msg: '登陆成功'
+        }).end()
+      }
     } else {
       res.send({
         result: 2,
