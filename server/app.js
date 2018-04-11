@@ -11,7 +11,8 @@ app.use(bodyParser.urlencoded({extented: true}))
 // 模板引擎
 app.set('view engine', 'html')
 // 静态资源目录
-app.use('/static', express.static(path.join(__dirname, './dist/static')))
+app.use(express.static(path.join(__dirname, './dist')))
+app.use('/public', express.static(path.join(__dirname, './public')))
 // 应用cookie
 // app.use(cookieParser())
 // 应用session

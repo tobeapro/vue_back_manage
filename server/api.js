@@ -5,6 +5,9 @@ const router = express.Router()
 router.get('/', (req, res) => {
   res.sendfile('./dist/index.html')
 })
+router.get('/hello', (req, res) => {
+  res.send('123')
+})
 // 生成验证码
 router.get('/back_manage/api/captcha', (req, res, next) => {
   // res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
@@ -85,5 +88,29 @@ router.post('/back_manage/api/register', (req, res, next) => {
         })
     }
   })
+})
+// 用户详情
+router.get('/back_manage/api/getInfo', (req, res, next) => {
+  if (req.session.isLogin && req.session.name) {
+    models.user.findOne({name: req.session.name}, {password: 0}, (err, data) => {
+      if (err) {
+        res.send(err)
+        next()
+      }
+      console.log(data)
+      if (data) {
+        delete data.password
+        res.send({result: 1, data: data})
+      } else {
+        res.send({msg: '用户不存在'})
+      }
+    })
+  } else {
+    res.send({result: 0, msg: '请重新登录'})
+  }
+})
+// 上传头像
+router.post('/back_manage/api/upload_avatar', (req, res, next) => {
+  res.send({result: 1})
 })
 module.exports = router

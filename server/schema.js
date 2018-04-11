@@ -9,9 +9,16 @@ db.once('open', () => {
 })
 const userSchema = new mongoose.Schema({
   name: String,
-  password: String
+  password: String,
+  avator: String
+})
+const infoSchema = new mongoose.Schema({
+  name: String,
+  id: String,
+  avator: String
 })
 const models = {
-  user: mongoose.model('user', userSchema)
+  user: mongoose.model('user', userSchema),
+  info: mongoose.model('info', infoSchema)
 }
 module.exports = models
