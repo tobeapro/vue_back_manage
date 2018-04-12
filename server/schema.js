@@ -10,15 +10,16 @@ db.once('open', () => {
 const userSchema = new mongoose.Schema({
   name: String,
   password: String,
-  avator: String
+  avatar: String
 })
-const infoSchema = new mongoose.Schema({
-  name: String,
+const articleSchema = new mongoose.Schema({
   id: String,
-  avator: String
+  user_name: String,
+  title: String,
+  conetnt: String
 })
 const models = {
   user: mongoose.model('user', userSchema),
-  info: mongoose.model('info', infoSchema)
+  article: mongoose.model('info', articleSchema)
 }
 module.exports = models
