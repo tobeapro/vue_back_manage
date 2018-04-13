@@ -37,7 +37,7 @@ export default {
       return sessionStorage.getItem('name') ? sessionStorage.getItem('name') : ''
     },
     activeIndex () {
-      return this.$route.path.split('/')[1]
+      return this.$route.meta.group ? this.$route.meta.group : this.$route.path.split('/')[1]
     }
   },
   mounted () {
