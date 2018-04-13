@@ -38,13 +38,13 @@ router.post('/back_manage/api/login', (req, res, next) => {
       next()
     }
     if (data.length) {
-      if (req.session.isLogin && req.session.name === req.body.name) {
+      if (req.session.name === req.body.name) {
         res.send({
           result: 1,
           msg: '欢迎回来'
         }).end()
       } else {
-        req.session.isLogin = true
+        // req.session.isLogin = true
         req.session.name = req.body.name
         res.send({
           result: 1,
@@ -95,7 +95,7 @@ router.post('/back_manage/api/register', (req, res, next) => {
 })
 // 用户详情
 router.get('/back_manage/api/getInfo', (req, res, next) => {
-  if (req.session.isLogin && req.session.name) {
+  if (req.session.name) {
     models.user.findOne({name: req.session.name}, {password: 0}, (err, data) => {
       if (err) {
         res.send(err)
@@ -153,7 +153,7 @@ router.post('/back_manage/api/upload_avatar', (req, res, next) => {
 })
 // 获取文章列表
 router.get('/back_manage/api/articles', (req, res, next) => {
-  if (req.session.isLogin && req.session.name) {
+  if (req.session.name) {
     models.article.find({user_name: req.session.name}, (err, data) => {
       if (err) {
         res.send(err)
@@ -168,6 +168,43 @@ router.get('/back_manage/api/articles', (req, res, next) => {
     })
   } else {
     res.send({result: 0, msg: '请重新登录'})
+  }
+})
+// 添加文章
+router.post('/back_manage/api/article/new', (req, res, next) => {
+  if (req.session.name) {
+    const newArticle = models.article({
+      user_name: req.session.name,
+      title: req.body.title,
+      content: req.body.content,
+      create_time: req.body.create_time,
+      update_time: req.body.create_time
+    })
+    newArticle.save(err => {
+      if (err) {
+        res.send({result: 2, msg: '保存失败'})
+      }
+      res.send({result: 1, msg: '保存成功', data: newArticle})
+    })
+  } else {
+    res.send({result: 0})
+  }
+})
+// 文章明细
+router.get('/back_manage/api/article/detail', (req, res, next) => {
+  if (req.session.name) {
+    models.article.findById(req.query.id, (err, doc) => {
+      if (err) {
+        res.send({result: 2, msg: '查看失败'})
+      }
+      if (doc) {
+        res.send({result: 1, data: doc})
+      } else {
+        res.send({result: 2, msg: '文章不存在'})
+      }
+    })
+  } else {
+    res.send({result: 0})
   }
 })
 module.exports = router
