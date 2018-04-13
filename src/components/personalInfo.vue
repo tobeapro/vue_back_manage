@@ -59,7 +59,7 @@ export default{
           this.infoData = res.data.data
           this.userInfo.id = res.data.data._id
         } else {
-          this.$message(res.data.msg)
+          this.$message.error(res.data.msg)
         }
       }).catch(() => {
         this.$message.error('登录出错')
