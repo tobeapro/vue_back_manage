@@ -52,7 +52,7 @@ export default new Router({
           }
         },
         {
-          path: '/articleDetail/:id',
+          path: '/articleDetail',
           name: 'articleDetail',
           component: articleDetail,
           meta: {

@@ -10,9 +10,11 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import 'babel-polyfill'
 import Icon from 'vue-awesome/components/Icon'
+import CommonUtils from './assets/commonUtils'
 Vue.component('icon', Icon)
 Vue.use(ElementUI)
 Vue.use(VueAxios, axios)
+Vue.use(CommonUtils)
 Vue.config.productionTip = false
 
 const DEVSERVER = 'http://localhost:4000/back_manage/'

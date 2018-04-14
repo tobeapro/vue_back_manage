@@ -9,7 +9,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="addItem">确认</el-button>
-        <el-button @click="()=>{this.$router('/articleManage')}">取消</el-button>
+        <el-button @click="()=>{this.$router.push('/articleManage')}">取消</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -40,7 +40,7 @@ export default {
           })
         } else if (res.data.result === 1) {
           this.$message.success('添加成功！')
-          this.$router.push('/articleDetail/' + res.data.data._id)
+          this.$router.push({path: '/articleDetail', query: {id: res.data.data._id}})
         } else {
           this.$message.error('添加失败')
         }

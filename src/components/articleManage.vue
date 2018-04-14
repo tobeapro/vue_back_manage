@@ -4,9 +4,11 @@
       <el-button type="primary" size="small" @click="()=>{this.$router.push('/newArticle')}">新增文章</el-button>
     </div>
     <div>
-      <ul v-if="articleList.length">
+      <ul class="article-list" v-if="articleList.length">
           <li v-for="(item,index) in articleList" :key="index" >
-            {{item.title}}
+            <span>发布于:{{item.create_time}} 最后更新:{{$countTime(item.update_time)}}</span>
+            <span>{{item.title}}</span>
+            <span><el-button type="text" @click="()=>{this.$router.push({path: '/articleDetail', query: {id: item._id}})}">查看</el-button></span>
           </li>
       </ul>
       <div v-else>
@@ -50,4 +52,10 @@ export default{
 }
 </script>
 <style lang = "scss">
+  .article-list{
+    li{
+      display:flex;
+      flex-direction: column;
+    }
+  }
 </style>

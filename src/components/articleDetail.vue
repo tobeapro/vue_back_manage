@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     getItem () {
-      this.axios.get('/back_manage/api/article/detail?id=' + this.$route.params.id).then(res => {
+      this.axios.get('/back_manage/api/article/detail?id=' + this.$route.query.id).then(res => {
         if (res.data.result === 0) {
           this.$alert('你未登录或身份已过期！', '提示', {
             type: 'warning',
