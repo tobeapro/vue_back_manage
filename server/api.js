@@ -207,4 +207,21 @@ router.get('/back_manage/api/article/detail', (req, res, next) => {
     res.send({result: 0})
   }
 })
+// 删除文章
+router.get('/back_manage/api/article/delete', (req, res, next) => {
+  if (req.session.name) {
+    models.article.findById(req.query.id, (err, doc) => {
+      if (err) {
+        res.send({result: 2, msg: '查看失败'})
+      }
+      if (doc) {
+        res.send({result: 1, data: doc})
+      } else {
+        res.send({result: 2, msg: '文章不存在'})
+      }
+    })
+  } else {
+    res.send({result: 0})
+  }
+})
 module.exports = router

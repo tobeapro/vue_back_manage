@@ -8,8 +8,8 @@
         <div v-text="item.content"></div>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="editItem">编辑</el-button>
-        <el-button @click="()=>{this.$router.push('/articleManage')}">返回</el-button>
+        <el-button type="primary" size="small" @click="editItem">编辑</el-button>
+        <el-button size="small" @click="()=>{this.$router.push('/articleManage')}">返回</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -19,7 +19,7 @@ export default {
   name: 'articleDetail',
   data () {
     return {
-      item: ''
+      item: {}
     }
   },
   created () {
