@@ -210,15 +210,11 @@ router.get('/back_manage/api/article/detail', (req, res, next) => {
 // 删除文章
 router.get('/back_manage/api/article/delete', (req, res, next) => {
   if (req.session.name) {
-    models.article.findById(req.query.id, (err, doc) => {
+    models.article.remove({_id: req.query.id}, err => {
       if (err) {
-        res.send({result: 2, msg: '查看失败'})
+        res.send({result: 2, msg: '删除失败'})
       }
-      if (doc) {
-        res.send({result: 1, data: doc})
-      } else {
-        res.send({result: 2, msg: '文章不存在'})
-      }
+      res.send({result: 1, msg: '删除成功'})
     })
   } else {
     res.send({result: 0})

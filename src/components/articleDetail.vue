@@ -2,14 +2,22 @@
   <div>
     <el-form ref="form" :model="item" label-width="80px">
       <el-form-item label="标题">
-        <div v-text="item.title"></div>
+        <div v-text="item.title" v-if="!editStatus"></div>
+        <el-input v-else v-model.trim="submitItem.title" placeholder="标题长度不超过12字符" maxlength="12"></el-input>
       </el-form-item>
-      <el-form-item label="文章内容">
-        <div v-text="item.content"></div>
+      <el-form-item label="文章内容" class="article-content">
+        <div v-text="item.content" v-if="!editStatus"></div>
+        <el-input v-else type="textarea" v-model="submitItem.content"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="small" @click="editItem">编辑</el-button>
-        <el-button size="small" @click="()=>{this.$router.push('/articleManage')}">返回</el-button>
+        <div v-if="editStatus">
+          <el-button type="primary" size="small" @click="saveItem">保存</el-button>
+          <el-button size="small" @click="editStatus=!editStatus">取消</el-button>
+        </div>
+        <div v-else>
+          <el-button type="primary" size="small" @click="editItem">编辑</el-button>
+          <el-button size="small" @click="()=>{this.$router.push('/articleManage')}">返回</el-button>
+        </div>
       </el-form-item>
     </el-form>
   </div>
@@ -19,7 +27,9 @@ export default {
   name: 'articleDetail',
   data () {
     return {
-      item: {}
+      item: {},
+      editStatus: false,
+      submitItem: {}
     }
   },
   created () {
@@ -45,6 +55,11 @@ export default {
       })
     },
     editItem () {
+      this.editStatus = true
+      this.submitItem = Object.assign({}, this.item)
+    },
+    saveItem () {
+      this.editStatus = false
     }
   }
 }

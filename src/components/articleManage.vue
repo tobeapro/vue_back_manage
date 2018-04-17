@@ -5,7 +5,7 @@
     </div>
     <div>
       <div v-if="articleList.length">
-          <el-table ref="table" :data="articleList"  size="mini" border stripe align="center" :default-sort="defaultSort">
+          <el-table ref="table" :data="articleList"  size="mini" border stripe align="right" :default-sort="defaultSort">
             <el-table-column type="index" width="50" fixed="left">
             </el-table-column>
             <el-table-column prop="title" label="标题">
@@ -20,10 +20,9 @@
                 {{$countTime(props.row.update_time)}}
               </template>
             </el-table-column>
-            <el-table-column label="操作" fixed="right" width="300">
+            <el-table-column label="操作" fixed="right" width="200">
               <template slot-scope="props">
-                  <el-button type="success" icon="el-icon-document" size="mini" round @click="checkArticle(props.row)">查看</el-button>
-                  <el-button type="primary" icon="el-icon-edit" size="mini" round @click="checkArticle(props.row)">编辑</el-button>
+                  <el-button type="success" icon="el-icon-document" size="mini" round @click="checkArticle(props.row)">详情</el-button>
                   <el-button type="danger" icon="el-icon-delete" size="mini" round @click="deleteArticle(props.row)">删除</el-button>
               </template>
             </el-table-column>
@@ -84,6 +83,7 @@ export default{
             })
           } else if (res.data.result === 1) {
             this.$message.success('删除成功')
+            this.getArticles()
           } else {
             this.$message.error('删除失败')
           }

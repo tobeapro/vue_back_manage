@@ -2,14 +2,14 @@
   <div>
     <el-form ref="form" :model="item" label-width="80px">
       <el-form-item label="标题">
-        <el-input v-model="item.title"></el-input>
+        <el-input v-model.trim="item.title" placeholder="标题长度不超过12字符" maxlength="12"></el-input>
       </el-form-item>
-      <el-form-item label="文章内容">
+      <el-form-item label="文章内容" class="article-content">
         <el-input type="textarea" v-model="item.content"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="addItem">确认</el-button>
-        <el-button @click="()=>{this.$router.push('/articleManage')}">取消</el-button>
+        <el-button type="primary" size="small" @click="addItem">确认</el-button>
+        <el-button size="small" @click="()=>{this.$router.push('/articleManage')}">取消</el-button>
       </el-form-item>
     </el-form>
   </div>

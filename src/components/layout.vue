@@ -21,6 +21,11 @@
       </el-menu>
     </el-aside>
     <el-main>
+      <el-header height="40px">
+        <div class="header-info">
+            <span>{{name}}</span>
+        </div>
+      </el-header>
       <router-view></router-view>
     </el-main>
   </el-container>
@@ -61,11 +66,34 @@ export default {
     .el-aside{
       .el-menu{
         height:100%;
+        border:none;
       }
     }
     .el-main{
+      position:relative;
+      padding-top:80px;
       height:100%;
+      background-color:#f4f4f5;
       overflow-y:auto;
+      .el-header{
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        font-size:16px;
+        height:40px;
+        line-height:40px;
+        color:#fff;
+        background-color:#555;
+        .header-info{
+          float:right;
+        }
+      }
+    }
+  }
+  .article-content{
+    .el-textarea__inner{
+      height:400px;
     }
   }
 </style>
