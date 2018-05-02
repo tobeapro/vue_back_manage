@@ -207,6 +207,19 @@ router.get('/back_manage/api/article/detail', (req, res, next) => {
     res.send({result: 0})
   }
 })
+// 编辑文章
+router.post('/back_manage/api/article/update', (req, res, next) => {
+  if (req.session.name) {
+    models.article.update({_id: req.body._id}, {title: req.body.title, content: req.body.content, update_time: req.body.update_time}, err => {
+      if (err) {
+        res.send({result: 2, msg: '更新失败'})
+      }
+      res.send({result: 1, msg: '更新成功'})
+    })
+  } else {
+    res.send({result: 0})
+  }
+})
 // 删除文章
 router.get('/back_manage/api/article/delete', (req, res, next) => {
   if (req.session.name) {

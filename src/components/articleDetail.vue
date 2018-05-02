@@ -23,6 +23,7 @@
   </div>
 </template>
 <script>
+import qs from 'qs'
 export default {
   name: 'articleDetail',
   data () {
@@ -59,7 +60,25 @@ export default {
       this.submitItem = Object.assign({}, this.item)
     },
     saveItem () {
-      this.editStatus = false
+      this.submitItem.update_time = new Date()
+      this.axios.post('/back_manage/api/article/update', qs.stringify(this.submitItem)).then(res => {
+        if (res.data.result === 0) {
+          this.$alert('你未登录或身份已过期！', '提示', {
+            type: 'warning',
+            callback: action => {
+              this.$router.push('/')
+            }
+          })
+        } else if (res.data.result === 1) {
+          this.$message.success('更新成功')
+          this.getItem()
+          this.editStatus = false
+        } else {
+          this.$message.error('更新失败')
+        }
+      }).catch(() => {
+        this.$message.error('更新失败')
+      })
     }
   }
 }
