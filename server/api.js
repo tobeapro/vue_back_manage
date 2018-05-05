@@ -177,6 +177,7 @@ router.post('/back_manage/api/article/new', (req, res, next) => {
       user_name: req.session.name,
       title: req.body.title,
       content: req.body.content,
+      contentHtml: req.body.contentHtml,
       create_time: req.body.create_time,
       update_time: req.body.create_time
     })
@@ -210,7 +211,7 @@ router.get('/back_manage/api/article/detail', (req, res, next) => {
 // 编辑文章
 router.post('/back_manage/api/article/update', (req, res, next) => {
   if (req.session.name) {
-    models.article.update({_id: req.body._id}, {title: req.body.title, content: req.body.content, update_time: req.body.update_time}, err => {
+    models.article.update({_id: req.body._id}, {title: req.body.title, content: req.body.content, contentHtml: req.body.contentHtml, update_time: req.body.update_time}, err => {
       if (err) {
         res.send({result: 2, msg: '更新失败'})
       }

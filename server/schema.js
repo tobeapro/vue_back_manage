@@ -18,7 +18,8 @@ const articleSchema = new mongoose.Schema({
   create_time: Date,
   update_time: Date,
   title: String,
-  content: String
+  content: String,
+  contentHtml: String
 })
 const models = {
   user: mongoose.model('user', userSchema),

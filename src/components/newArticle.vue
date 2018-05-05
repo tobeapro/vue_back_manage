@@ -5,7 +5,7 @@
         <el-input v-model.trim="item.title" placeholder="标题长度不超过12字符" maxlength="12"></el-input>
       </el-form-item>
       <el-form-item label="文章内容" class="article-content">
-        <el-input type="textarea" v-model="item.content"></el-input>
+        <mavon-editor @change="changeContent" v-model="item.content" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" size="small" @click="addItem">确认</el-button>
@@ -23,11 +23,15 @@ export default {
       item: {
         title: '',
         content: '',
+        contentHtml: '',
         create_time: ''
       }
     }
   },
   methods: {
+    changeContent (content, contentHtml) {
+      this.item.contentHtml = contentHtml
+    },
     addItem () {
       this.item.create_time = new Date()
       this.axios.post('/back_manage/api/article/new', qs.stringify(this.item)).then(res => {

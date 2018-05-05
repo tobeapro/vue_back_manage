@@ -6,8 +6,9 @@
         <el-input v-else v-model.trim="submitItem.title" placeholder="标题长度不超过12字符" maxlength="12"></el-input>
       </el-form-item>
       <el-form-item label="文章内容" class="article-content">
-        <div v-text="item.content" v-if="!editStatus"></div>
-        <el-input v-else type="textarea" v-model="submitItem.content"></el-input>
+        <div v-html="item.contentHtml" v-if="!editStatus"></div>
+        <!-- <el-input v-else type="textarea" v-model="submitItem.content"></el-input> -->
+        <mavon-editor v-else @change="changeContent" @imgAdd="uploadImg" v-model="submitItem.content" />
       </el-form-item>
       <el-form-item>
         <div v-if="editStatus">
@@ -58,6 +59,29 @@ export default {
     editItem () {
       this.editStatus = true
       this.submitItem = Object.assign({}, this.item)
+    },
+    changeContent (content, contentHtml) {
+      this.submitItem.contentHtml = contentHtml
+    },
+    uploadImg (name, file) {
+      console.log(name, file)
+      // this.axios.post('/back_manage/api/upload_avatar', qs.stringify(file)).then(res => {
+      //   if (res.data.result === 0) {
+      //     this.$alert('你未登录或身份已过期！', '提示', {
+      //       type: 'warning',
+      //       callback: action => {
+      //         this.$router.push('/')
+      //       }
+      //     })
+      //   } else if (res.data.result === 1) {
+      //     console.log(res)
+      //     return true
+      //   } else {
+      //     this.$message.error('上传失败')
+      //   }
+      // }).catch(() => {
+      //   this.$message.error('上传失败')
+      // })
     },
     saveItem () {
       this.submitItem.update_time = new Date()
