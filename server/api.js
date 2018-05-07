@@ -170,6 +170,32 @@ router.get('/back_manage/api/articles', (req, res, next) => {
     res.send({result: 0, msg: '请重新登录'})
   }
 })
+router.post('/back_manage/api/upload_img', (req, res, next) => {
+  if (!fs.existsSync(path.join(__dirname, '/public/resource'))) {
+    fs.mkdirSync(path.join(__dirname, '/public/resource'))
+  }
+  const form = new formidable.IncomingForm()
+  form.encoding = 'utf-8'
+  form.keepExtensions = true
+  form.uploadDir = path.join(__dirname, './public/resource')
+  form.maxFieldsSize = 2 * 1024 * 1024
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      res.send({result: 2, msg: '上传失败'})
+    }
+    const imgPath = files.file.path
+    const imgData = fs.readFileSync(imgPath)
+    fs.writeFile(imgPath, imgData, err => {
+      if (err) {
+        res.send({result: 2, msg: '上传失败'})
+      }
+      res.send({result: 1, msg: '上传成功', url: 'http://localhost:4000/public/resource/' + path.basename(imgPath)})
+    })
+  })
+  form.on('error', err => {
+    res.send({result: 2, msg: err})
+  })
+})
 // 添加文章
 router.post('/back_manage/api/article/new', (req, res, next) => {
   if (req.session.name) {
