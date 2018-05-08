@@ -4,10 +4,10 @@
     <h1>{{ msg }}</h1>
     <el-form :model="checkData" ref="registerForm" :rules="registerRules" label-width="80px">
       <el-form-item label="注册账号" prop="name">
-        <el-input v-model.trim="checkData.name" placeholder="请输入注册账号" clearable></el-input>
+        <el-input v-model.trim="checkData.name" autoComplete="off" placeholder="请输入注册账号" clearable></el-input>
       </el-form-item>
       <el-form-item label="注册密码" prop="password">
-        <el-input type="password" v-model.trim="checkData.password" placeholder="请输入注册密码" clearable></el-input>
+        <el-input type="password" v-model.trim="checkData.password" autoComplete="off" placeholder="请输入注册密码" clearable></el-input>
       </el-form-item>
       <el-form-item label="确认密码" prop="confirmPassword">
         <el-input type="password" v-model.trim="confirmPwd" placeholder="请确认注册密码" clearable></el-input>

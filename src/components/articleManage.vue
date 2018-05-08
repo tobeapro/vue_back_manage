@@ -22,8 +22,8 @@
             </el-table-column>
             <el-table-column label="操作" fixed="right" width="200">
               <template slot-scope="props">
-                  <el-button type="success" icon="el-icon-document" size="mini" round @click="checkArticle(props.row)">详情</el-button>
-                  <el-button type="danger" icon="el-icon-delete" size="mini" round @click="deleteArticle(props.row)">删除</el-button>
+                  <el-button type="success" icon="el-icon-document" size="mini" circle @click="checkArticle(props.row)"></el-button>
+                  <el-button type="danger" icon="el-icon-delete" size="mini" circle @click="deleteArticle(props.row)"></el-button>
               </template>
             </el-table-column>
           </el-table>
