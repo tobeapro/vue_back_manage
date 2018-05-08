@@ -151,6 +151,33 @@ router.post('/back_manage/api/upload_avatar', (req, res, next) => {
     res.send({result: 2, msg: err})
   })
 })
+// 修改密码
+router.post('/back_manage/api/pwdUpdate', (req, res, next) => {
+  if (req.session.name) {
+    models.user.findById(req.body.id, (err, data) => {
+      if (err) {
+        res.send(err)
+        next()
+      }
+      if (data) {
+        if (data.password === req.body.oldPwd) {
+          models.user.update({_id: req.body.id}, {password: req.body.newPwd}, err => {
+            if (err) {
+              res.send({result: 2, msg: '更新失败'})
+            }
+            res.send({result: 1})
+          })
+        } else {
+          res.send({result: 2, msg: '原密码输入有误'})
+        }
+      } else {
+        res.send({result: 2, msg: '该用户不存在'})
+      }
+    })
+  } else {
+    res.send({result: 0, msg: '请重新登录'})
+  }
+})
 // 获取文章列表
 router.get('/back_manage/api/articles', (req, res, next) => {
   if (req.session.name) {
@@ -160,7 +187,7 @@ router.get('/back_manage/api/articles', (req, res, next) => {
         next()
       }
       if (data) {
-        delete data.password
+        // delete data.password
         res.send({result: 1, data: data})
       } else {
         res.send({result: 1, data: []})
@@ -170,6 +197,7 @@ router.get('/back_manage/api/articles', (req, res, next) => {
     res.send({result: 0, msg: '请重新登录'})
   }
 })
+// 上传图片
 router.post('/back_manage/api/upload_img', (req, res, next) => {
   if (!fs.existsSync(path.join(__dirname, '/public/resource'))) {
     fs.mkdirSync(path.join(__dirname, '/public/resource'))
