@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const session = require('express-session')
 const path = require('path')
 const api = require('./api')
+const frontApi = require('./front_api')
 const app = express()
 const port = 4000
 // 提交参数为任意类型
@@ -24,8 +25,17 @@ app.use(session({
     maxAge: 1000 * 60 * 100// 设置 session 的有效时间，单位毫秒
   }
 }))
+// 配置CORS
+const allowCrossDomain = function(req, res, next) {
+   res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
+   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+   res.header('Access-Control-Allow-Headers', 'Content-Type')
+   next()
+}
+app.use(allowCrossDomain)
 // 引用api
 app.use(api)
+app.use(frontApi)
 app.listen(port, () => {
   console.log('listen on localhost:' + port)
 })
