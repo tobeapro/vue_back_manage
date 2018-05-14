@@ -15,4 +15,18 @@ router.post('/front_manage/api/getArticles',(req,res,next)=>{
 		}
 	})
 })
+// 获取用户信息
+router.post('/front_manage/api/getInfo',(req,res,next)=>{
+	models.user.findOne({name:req.body.name},{password: 0},(err,data)=>{
+		if(err){
+			res.send(err)
+			next()
+		}
+		if(data){
+			res.send({result:1,data:data})
+		}else{
+			res.send({result:2})
+		}
+	})
+})
 module.exports = router
