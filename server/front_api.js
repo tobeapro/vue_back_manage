@@ -29,4 +29,18 @@ router.post('/front_manage/api/getInfo',(req,res,next)=>{
 		}
 	})
 })
+// 获取新闻
+router.get('/front_manage/api/getNews',(req,res,next)=>{
+	models.news.find({},(err,data)=>{
+		if(err){
+			res.send(err)
+			next()
+		}
+		if(data){
+			res.send({result:1,data:data})
+		}else{
+			res.send({result:1,data:[]})
+		}
+	})
+})
 module.exports = router
