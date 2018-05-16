@@ -24,7 +24,8 @@ const articleSchema = new mongoose.Schema({
 const newsSchema = new mongoose.Schema({
   title: String,
   date: String,
-  content: String
+  content: String,
+  spider_time:String
 })
 const models = {
   user: mongoose.model('user', userSchema),
