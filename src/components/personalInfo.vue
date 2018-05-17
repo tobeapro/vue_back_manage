@@ -18,7 +18,7 @@
           </el-upload>
         </div>
         <div class="cus-form-item" v-else>
-          <img class="avatar" src="http://localhost:4000/public/img/no_avatar.png"/>
+          <img class="avatar" src="/public/img/no_avatar.png"/>
           <el-upload
             action="/back_manage/api/upload_avatar"
             :data="userInfo"
