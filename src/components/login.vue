@@ -73,9 +73,9 @@ export default {
   },
   mounted () {
     this.getCaptcha()
-    if (document.domain !== 'localhost' && document.domain !== 'localhost:3000') {
-      window.location.href = 'http://localhost:4000'
-    }
+    // if (document.domain !== 'localhost' && document.domain !== 'localhost:3000') {
+    //   window.location.href = 'http://localhost:4000'
+    // }
   },
   methods: {
     login () {
