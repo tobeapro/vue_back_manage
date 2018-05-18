@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="header">
       <el-button type="primary" size="small" @click="()=>{this.$router.push('/newArticle')}">新增文章</el-button>
     </div>

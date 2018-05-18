@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <el-form ref="form" :model="item" label-width="80px">
       <el-form-item label="标题">
         <div v-text="item.title" v-if="!editStatus"></div>
