@@ -37,5 +37,5 @@ app.use(allowCrossDomain)
 app.use(api)
 app.use(frontApi)
 app.listen(port, () => {
-  console.log('listen on localhost:' + port)
+  console.log('listen on port:' + port)
 })

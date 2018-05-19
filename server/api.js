@@ -8,9 +8,6 @@ const router = express.Router()
 router.get('/', (req, res) => {
   res.sendfile('./dist/index.html')
 })
-router.get('/hello', (req, res) => {
-  res.send('123')
-})
 // 生成验证码
 router.get('/back_manage/api/captcha', (req, res, next) => {
   // res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
@@ -137,11 +134,11 @@ router.post('/back_manage/api/upload_avatar', (req, res, next) => {
           if (err) {
             res.send({result: 2, msg: '上传失败'})
           }
-          models.user.update({_id: fields.id}, {avatar: 'http://localhost:4000/public/resource/' + path.basename(imgPath)}, (err) => {
+          models.user.update({_id: fields.id}, {avatar: '/public/resource/' + path.basename(imgPath)}, (err) => {
             if (err) {
               res.send({result: 2, msg: '上传失败'})
             }
-            res.send({result: 1, msg: '上传成功', url: 'http://localhost:4000/public/resource/' + path.basename(imgPath)})
+            res.send({result: 1, msg: '上传成功', url: '/public/resource/' + path.basename(imgPath)})
           })
         })
       }
@@ -217,7 +214,7 @@ router.post('/back_manage/api/upload_img', (req, res, next) => {
       if (err) {
         res.send({result: 2, msg: '上传失败'})
       }
-      res.send({result: 1, msg: '上传成功', url: 'http://localhost:4000/public/resource/' + path.basename(imgPath)})
+      res.send({result: 1, msg: '上传成功', url: '/public/resource/' + path.basename(imgPath)})
     })
   })
   form.on('error', err => {
