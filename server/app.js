@@ -3,8 +3,8 @@ const bodyParser = require('body-parser')
 // const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const path = require('path')
-const api = require('./api')
 const frontApi = require('./front_api')
+const back_api = require('./back_api')
 const app = express()
 const port = 4000
 // 提交参数为任意类型
@@ -33,9 +33,32 @@ const allowCrossDomain = function(req, res, next) {
    next()
 }
 app.use(allowCrossDomain)
-// 引用api
-app.use(api)
+// 前台接口
 app.use(frontApi)
+// 鉴权
+const noNeedUrl = [
+  '/back_manage/api/captcha',
+  '/back_manage/api/login',
+  '/back_manage/api/register'
+]
+const allowRequest = function (req, res, next) {
+  // if(req.session.name || req.originalUrl === '/back_manage/api/captcha' || )
+  const originalUrl = req.originalUrl
+  for(let url of noNeedUrl) {
+    if(url === originalUrl) {
+      return next()
+    }
+  }
+  if(req.session.name){
+    return next()
+  }else{
+    res.send({result:0,msg:'未登录'})
+  }
+}
+app.use(allowRequest)
+// 后台接口
+app.use(back_api)
+
 app.listen(port, () => {
   console.log('listen on port:' + port)
 })

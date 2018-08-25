@@ -10,8 +10,6 @@ router.get('/', (req, res) => {
 })
 // 生成验证码
 router.get('/back_manage/api/captcha', (req, res, next) => {
-  // res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
-  // res.header('Access-Control-Request-Method', 'GET')
   let captcha = svgCaptcha.create({
     noise: 2,
     ignoreChars: '0o1i',
@@ -24,8 +22,6 @@ router.get('/back_manage/api/captcha', (req, res, next) => {
 })
 // 登陆
 router.post('/back_manage/api/login', (req, res, next) => {
-  // res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
-  // res.header('Access-Control-Request-Method', 'POST')
   models.user.find({
     name: req.body.name,
     password: req.body.password
@@ -58,8 +54,6 @@ router.post('/back_manage/api/login', (req, res, next) => {
 })
 // 注册
 router.post('/back_manage/api/register', (req, res, next) => {
-  // res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
-  // res.header('Access-Control-Request-Method', 'POST')
   models.user.find({
     name: req.body.name
   }, (err, data) => {
@@ -92,22 +86,18 @@ router.post('/back_manage/api/register', (req, res, next) => {
 })
 // 用户详情
 router.get('/back_manage/api/getInfo', (req, res, next) => {
-  if (req.session.name) {
-    models.user.findOne({name: req.session.name}, {password: 0}, (err, data) => {
-      if (err) {
-        res.send(err)
-        next()
-      }
-      if (data) {
-        delete data.password
-        res.send({result: 1, data: data})
-      } else {
-        res.send({msg: '用户不存在'})
-      }
-    })
-  } else {
-    res.send({result: 0, msg: '请重新登录'})
-  }
+  models.user.findOne({name: req.session.name}, {password: 0}, (err, data) => {
+    if (err) {
+      res.send(err)
+      next()
+    }
+    if (data) {
+      delete data.password
+      res.send({result: 1, data: data})
+    } else {
+      res.send({msg: '用户不存在'})
+    }
+  })
 })
 // 上传头像
 router.post('/back_manage/api/upload_avatar', (req, res, next) => {
@@ -150,49 +140,41 @@ router.post('/back_manage/api/upload_avatar', (req, res, next) => {
 })
 // 修改密码
 router.post('/back_manage/api/pwdUpdate', (req, res, next) => {
-  if (req.session.name) {
-    models.user.findById(req.body.id, (err, data) => {
-      if (err) {
-        res.send(err)
-        next()
-      }
-      if (data) {
-        if (data.password === req.body.oldPwd) {
-          models.user.update({_id: req.body.id}, {password: req.body.newPwd}, err => {
-            if (err) {
-              res.send({result: 2, msg: '更新失败'})
-            }
-            res.send({result: 1})
-          })
-        } else {
-          res.send({result: 2, msg: '原密码输入有误'})
-        }
+  models.user.findById(req.body.id, (err, data) => {
+    if (err) {
+      res.send(err)
+      next()
+    }
+    if (data) {
+      if (data.password === req.body.oldPwd) {
+        models.user.update({_id: req.body.id}, {password: req.body.newPwd}, err => {
+          if (err) {
+            res.send({result: 2, msg: '更新失败'})
+          }
+          res.send({result: 1})
+        })
       } else {
-        res.send({result: 2, msg: '该用户不存在'})
+        res.send({result: 2, msg: '原密码输入有误'})
       }
-    })
-  } else {
-    res.send({result: 0, msg: '请重新登录'})
-  }
+    } else {
+      res.send({result: 2, msg: '该用户不存在'})
+    }
+  })
 })
 // 获取文章列表
 router.get('/back_manage/api/articles', (req, res, next) => {
-  if (req.session.name) {
-    models.article.find({user_name: req.session.name}, (err, data) => {
-      if (err) {
-        res.send(err)
-        next()
-      }
-      if (data) {
-        // delete data.password
-        res.send({result: 1, data: data})
-      } else {
-        res.send({result: 1, data: []})
-      }
-    })
-  } else {
-    res.send({result: 0, msg: '请重新登录'})
-  }
+  models.article.find({user_name: req.session.name}, (err, data) => {
+    if (err) {
+      res.send(err)
+      next()
+    }
+    if (data) {
+      // delete data.password
+      res.send({result: 1, data: data})
+    } else {
+      res.send({result: 1, data: []})
+    }
+  })
 })
 // 上传图片
 router.post('/back_manage/api/upload_img', (req, res, next) => {
@@ -223,66 +205,51 @@ router.post('/back_manage/api/upload_img', (req, res, next) => {
 })
 // 添加文章
 router.post('/back_manage/api/article/new', (req, res, next) => {
-  if (req.session.name) {
-    const newArticle = models.article({
-      user_name: req.session.name,
-      title: req.body.title,
-      content: req.body.content,
-      contentHtml: req.body.contentHtml,
-      create_time: req.body.create_time,
-      update_time: req.body.create_time
-    })
-    newArticle.save(err => {
-      if (err) {
-        res.send({result: 2, msg: '保存失败'})
-      }
-      res.send({result: 1, msg: '保存成功', data: newArticle})
-    })
-  } else {
-    res.send({result: 0})
-  }
+  const newArticle = models.article({
+    user_name: req.session.name,
+    title: req.body.title,
+    content: req.body.content,
+    contentHtml: req.body.contentHtml,
+    create_time: req.body.create_time,
+    update_time: req.body.create_time
+  })
+  newArticle.save(err => {
+    if (err) {
+      res.send({result: 2, msg: '保存失败'})
+    }
+    res.send({result: 1, msg: '保存成功', data: newArticle})
+  })
 })
 // 文章明细
 router.get('/back_manage/api/article/detail', (req, res, next) => {
-  if (req.session.name) {
-    models.article.findById(req.query.id, (err, doc) => {
-      if (err) {
-        res.send({result: 2, msg: '查看失败'})
-      }
-      if (doc) {
-        res.send({result: 1, data: doc})
-      } else {
-        res.send({result: 2, msg: '文章不存在'})
-      }
-    })
-  } else {
-    res.send({result: 0})
-  }
+  models.article.findById(req.query.id, (err, doc) => {
+    if (err) {
+      res.send({result: 2, msg: '查看失败'})
+    }
+    if (doc) {
+      res.send({result: 1, data: doc})
+    } else {
+      res.send({result: 2, msg: '文章不存在'})
+    }
+  })
 })
 // 编辑文章
 router.post('/back_manage/api/article/update', (req, res, next) => {
-  if (req.session.name) {
-    models.article.update({_id: req.body._id}, {title: req.body.title, content: req.body.content, contentHtml: req.body.contentHtml, update_time: req.body.update_time}, err => {
-      if (err) {
-        res.send({result: 2, msg: '更新失败'})
-      }
-      res.send({result: 1, msg: '更新成功'})
-    })
-  } else {
-    res.send({result: 0})
-  }
+  models.article.update({_id: req.body._id}, {title: req.body.title, content: req.body.content, contentHtml: req.body.contentHtml, update_time: req.body.update_time}, err => {
+    if (err) {
+      res.send({result: 2, msg: '更新失败'})
+    }
+    res.send({result: 1, msg: '更新成功'})
+  })
 })
 // 删除文章
 router.get('/back_manage/api/article/delete', (req, res, next) => {
-  if (req.session.name) {
-    models.article.remove({_id: req.query.id}, err => {
-      if (err) {
-        res.send({result: 2, msg: '删除失败'})
-      }
-      res.send({result: 1, msg: '删除成功'})
-    })
-  } else {
-    res.send({result: 0})
-  }
+  models.article.remove({_id: req.query.id}, err => {
+    if (err) {
+      res.send({result: 2, msg: '删除失败'})
+    }
+    res.send({result: 1, msg: '删除成功'})
+  })
 })
+
 module.exports = router
