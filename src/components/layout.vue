@@ -1,13 +1,22 @@
 <template>
   <el-container>
-    <el-header height="40px">
+    <el-header height="60px">
       <div class="collapse" @click="isCollapse=!isCollapse" :class="{'active':isCollapse}">
         <i></i>
         <i></i>
         <i></i>
       </div>
       <div class="header-info">
-          <span>{{name}}</span>
+        <el-dropdown>
+          <span class="el-dropdown-link">
+            {{name}}<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>
+              <el-button type="text" @click="logout">退出</el-button>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
     </el-header>
     <el-container style="background-color:#f4f4f5;">
@@ -48,10 +57,14 @@ export default {
   },
   computed: {
     name () {
-      return sessionStorage.getItem('name') ? sessionStorage.getItem('name') : ''
+      return sessionStorage.getItem('name')
+        ? sessionStorage.getItem('name')
+        : ''
     },
     activeIndex () {
-      return this.$route.meta.group ? this.$route.meta.group : this.$route.path.split('/')[1]
+      return this.$route.meta.group
+        ? this.$route.meta.group
+        : this.$route.path.split('/')[1]
     }
   },
   mounted () {
@@ -63,61 +76,90 @@ export default {
         }
       })
     }
+  },
+  methods: {
+    logout () {
+      this.$confirm('是否确认退出？', '提示', {
+        type: 'warning'
+      }).then(() => {
+        this.confirmOut()
+      })
+    },
+    confirmOut () {
+      this.axios
+        .get('/back_manage/api/logout')
+        .then(res => {
+          if (res.data.result === 0) {
+            this.$router.push('/')
+          } else if (res.data.result === 1) {
+            this.$router.push('/')
+          } else {
+            this.$message.error('登出失败')
+          }
+        })
+        .catch(() => {
+          this.$message.error('请求异常')
+        })
+    }
   }
 }
 </script>
 <style lang="scss">
-  .el-header{
-    height:40px;
-    font-size:16px;
-    line-height:40px;
-    color:#fff;
-    background-color:#555;
-    .collapse{
-      float:left;
-      margin-top:12px;
-      margin-left:6px;
-      transition: all .2s linear;
-      &.active{
-        transform: rotate(90deg);
+.el-header {
+  height: 60px;
+  font-size: 16px;
+  line-height: 60px;
+  color: #fff;
+  background-color: #555;
+  .collapse {
+    float: left;
+    margin-top: 22px;
+    margin-left: 6px;
+    transition: all 0.2s linear;
+    &.active {
+      transform: rotate(90deg);
+    }
+    i {
+      display: block;
+      width: 16px;
+      height: 2px;
+      background-color: #fff;
+      &:not(:first-child) {
+        margin-top: 4px;
       }
-      i{
-        display:block;
-        width:16px;
-        height:2px;
-        background-color:#fff;
-        &:not(:first-child){
-          margin-top:4px;
-        }
-      }
-    }
-    .header-info{
-      float:right;
     }
   }
-  .el-aside{
-    position:absolute;
-    width:200px;
-    top:40px;
-    bottom:0;
-    overflow-y:auto;
-    .el-menu{
-      height:100%;
-      border:none;
+  .header-info {
+    float: right;
+    .el-dropdown {
+      color: #fff;
+      cursor: pointer;
     }
   }
-  .el-main{
-    position:absolute;
-    top:40px;
-    bottom:0;
-    left:200px;
-    right:0;
-    overflow-y:auto;
-    background-color:#ecf5ff;
+}
+.el-aside {
+  position: absolute;
+  width: 200px;
+  top: 60px;
+  bottom: 0;
+  overflow-y: auto;
+  .el-menu {
+    height: 100%;
+    border: none;
   }
-  .article-content{
-    .el-textarea__inner{
-      height:400px;
-    }
+}
+.el-main {
+  position: absolute;
+  top: 60px;
+  bottom: 0;
+  left: 200px;
+  right: 0;
+  overflow-y: auto;
+  background-color: #ecf5ff;
+}
+.article-content {
+  .el-textarea__inner {
+    height: 400px;
   }
+}
 </style>

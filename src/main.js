@@ -20,13 +20,14 @@ Vue.use(CommonUtils)
 Vue.use(mavonEditor)
 Vue.config.productionTip = false
 
-const DEVSERVER = 'http://localhost:4000/back_manage/'
-// const MOCKSERVER = ' https://easy-mock.com/mock/5ac1c0ef1756cd3c4ce8f562/back_manage/'
-const PRODSERVER = '/back_manage/'
+const DEVSERVER = 'http://localhost:4000/'
+const PRODSERVER = '/'
 if (process.env.NODE_ENV === 'development') {
-  global.APIHOST = DEVSERVER
+  Vue.prototype.ROOTSERVER = DEVSERVER
+  global.APIHOST = DEVSERVER + 'back_manage/'
 } else if (process.env.NODE_ENV === 'production') {
-  global.APIHOST = PRODSERVER
+  Vue.prototype.ROOTSERVER = PRODSERVER
+  global.APIHOST = PRODSERVER + 'back_manage/'
 }
 /* eslint-disable no-new */
 new Vue({

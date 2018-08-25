@@ -53,7 +53,6 @@ export default {
       })
     },
     uploadImg (name, file) {
-      console.log(name)
       let data = new FormData()
       data.append('file', file)
       this.axios.post('/back_manage/api/upload_img', data).then(res => {

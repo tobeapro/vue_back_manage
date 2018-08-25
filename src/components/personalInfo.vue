@@ -6,7 +6,7 @@
       </el-form-item>
       <el-form-item label="头像">
         <div class="cus-form-item" v-if="infoData.avatar">
-          <img class="avatar" :src="infoData.avatar" />
+          <img class="avatar" :src="ROOTSERVER+infoData.avatar" />
           <el-upload
             action="/back_manage/api/upload_avatar"
             :data="userInfo"
@@ -18,7 +18,7 @@
           </el-upload>
         </div>
         <div class="cus-form-item" v-else>
-          <img class="avatar" src="/public/img/no_avatar.png"/>
+          <img class="avatar" :src="ROOTSERVER+'public/img/no_avatar.png'"/>
           <el-upload
             action="/back_manage/api/upload_avatar"
             :data="userInfo"

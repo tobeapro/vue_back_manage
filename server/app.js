@@ -42,7 +42,6 @@ const noNeedUrl = [
   '/back_manage/api/register'
 ]
 const allowRequest = function (req, res, next) {
-  // if(req.session.name || req.originalUrl === '/back_manage/api/captcha' || )
   const originalUrl = req.originalUrl
   for(let url of noNeedUrl) {
     if(url === originalUrl) {

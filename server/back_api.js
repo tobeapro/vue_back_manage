@@ -52,6 +52,11 @@ router.post('/back_manage/api/login', (req, res, next) => {
     }
   })
 })
+// 登出
+router.get('/back_manage/api/logout', (req, res, next) => {
+  delete req.session.name
+  return res.send({result:1})
+})
 // 注册
 router.post('/back_manage/api/register', (req, res, next) => {
   models.user.find({
@@ -124,11 +129,11 @@ router.post('/back_manage/api/upload_avatar', (req, res, next) => {
           if (err) {
             res.send({result: 2, msg: '上传失败'})
           }
-          models.user.update({_id: fields.id}, {avatar: '/public/resource/' + path.basename(imgPath)}, (err) => {
+          models.user.update({_id: fields.id}, {avatar: 'public/resource/' + path.basename(imgPath)}, (err) => {
             if (err) {
               res.send({result: 2, msg: '上传失败'})
             }
-            res.send({result: 1, msg: '上传成功', url: '/public/resource/' + path.basename(imgPath)})
+            res.send({result: 1, msg: '上传成功', url: 'public/resource/' + path.basename(imgPath)})
           })
         })
       }
