@@ -43,6 +43,9 @@ const noNeedUrl = [
 ]
 const allowRequest = function (req, res, next) {
   const originalUrl = req.originalUrl
+  if (originalUrl.indexOf('front_manage') !== -1) {
+    return next()
+  }
   for(let url of noNeedUrl) {
     if(url === originalUrl) {
       return next()
