@@ -81,15 +81,14 @@ export default {
     login () {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
-          let data = qs.stringify(this.formData)
           this.$nextTick(() => {
-            this.axios.post('/back_manage/api/login', data, {timeout: 6000}).then(res => {
-              if (res.data.result === 1) {
-                this.$message.success(res.data.msg)
+            this.$http.postForm('/back_manage/api/login',this.formData).then(res => {
+              if (res.result === 1) {
+                this.$message.success(res.msg)
                 sessionStorage.setItem('name', this.formData.name)
                 this.$router.push('/home')
-              } else if (res.data.result === 2) {
-                this.$message.warning(res.data.msg)
+              } else if (res.result === 2) {
+                this.$message.warning(res.msg)
                 this.getCaptcha()
               } else {
                 this.$message.error('登录失败')

@@ -39,16 +39,9 @@ export default {
   },
   methods: {
     getItem () {
-      this.axios.get('/back_manage/api/article/detail?id=' + this.$route.query.id).then(res => {
-        if (res.data.result === 0) {
-          this.$alert('你未登录或身份已过期！', '提示', {
-            type: 'warning',
-            callback: action => {
-              this.$router.push('/')
-            }
-          })
-        } else if (res.data.result === 1) {
-          this.item = res.data.data
+      this.$http.get(this.ROOTSERVER+'back_manage/api/article/detail?id=' + this.$route.query.id).then(res => {
+      if (res.result === 1) {
+          this.item = res.data
         } else {
           this.$message.error('查看失败')
         }
@@ -67,18 +60,11 @@ export default {
       console.log(name)
       let data = new FormData()
       data.append('file', file)
-      this.axios.post('/back_manage/api/upload_img', data).then(res => {
-        if (res.data.result === 0) {
-          this.$alert('你未登录或身份已过期！', '提示', {
-            type: 'warning',
-            callback: action => {
-              this.$router.push('/')
-            }
-          })
-        } else if (res.data.result === 1) {
+      this.$http.postJSON('/back_manage/api/upload_img', data).then(res => {
+        if (res.result === 1) {
           this.$message.success('上传成功')
           const $vm = this.$refs['md']
-          $vm.$img2Url(name, res.data.url)
+          $vm.$img2Url(name, res.url)
         } else {
           this.$message.error('上传失败')
         }

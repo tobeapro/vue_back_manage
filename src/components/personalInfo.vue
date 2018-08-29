@@ -82,19 +82,19 @@ export default{
   },
   methods: {
     getInfo () {
-      this.axios.get('/back_manage/api/getInfo').then(res => {
-        if (res.data.result === 0) {
+      this.$http.get(this.ROOTSERVER + 'back_manage/api/getInfo').then(res => {
+        if (res.result === 0) {
           this.$alert('你未登录或身份已过期！', '提示', {
             type: 'warning',
             callback: action => {
               this.$router.push('/')
             }
           })
-        } else if (res.data.result === 1) {
-          this.infoData = res.data.data
-          this.userInfo.id = res.data.data._id
+        } else if (res.result === 1) {
+          this.infoData = res.data
+          this.userInfo.id = res.data._id
         } else {
-          this.$message.error(res.data.msg)
+          this.$message.error(res.msg)
         }
       }).catch(() => {
         this.$message.error('登录出错')

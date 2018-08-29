@@ -3,9 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import './assets/common.scss'
-import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import ElementUI from 'element-ui'
+import './assets/common.scss'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import 'babel-polyfill'
@@ -15,8 +15,8 @@ import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 Vue.component('icon', Icon)
 Vue.use(ElementUI)
-Vue.use(VueAxios, axios)
-Vue.use(CommonUtils)
+Vue.prototype.axios = axios
+Vue.use(CommonUtils,{ axios })
 Vue.use(mavonEditor)
 Vue.config.productionTip = false
 
