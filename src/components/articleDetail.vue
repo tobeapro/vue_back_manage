@@ -24,7 +24,6 @@
   </div>
 </template>
 <script>
-import qs from 'qs'
 export default {
   name: 'articleDetail',
   data () {
@@ -57,10 +56,7 @@ export default {
       this.submitItem.contentHtml = contentHtml
     },
     uploadImg (name, file) {
-      console.log(name)
-      let data = new FormData()
-      data.append('file', file)
-      this.$http.postJSON('/back_manage/api/upload_img', data).then(res => {
+      this.$http.postFile(this.ROOTSERVER+ 'back_manage/api/upload_img', {file}).then(res => {
         if (res.result === 1) {
           this.$message.success('上传成功')
           const $vm = this.$refs['md']
@@ -74,15 +70,8 @@ export default {
     },
     saveItem () {
       this.submitItem.update_time = new Date()
-      this.axios.post('/back_manage/api/article/update', qs.stringify(this.submitItem)).then(res => {
-        if (res.data.result === 0) {
-          this.$alert('你未登录或身份已过期！', '提示', {
-            type: 'warning',
-            callback: action => {
-              this.$router.push('/')
-            }
-          })
-        } else if (res.data.result === 1) {
+      this.$http.postForm(this.ROOTSERVER+'back_manage/api/article/update', this.submitItem).then(res => {
+        if (res.result === 1) {
           this.$message.success('更新成功')
           this.getItem()
           this.editStatus = false

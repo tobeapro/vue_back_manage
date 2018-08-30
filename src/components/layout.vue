@@ -86,12 +86,11 @@ export default {
       })
     },
     confirmOut () {
-      this.axios
-        .get('/back_manage/api/logout')
+      this.$http.get.get(this.ROOTSERVER+'back_manage/api/logout')
         .then(res => {
-          if (res.data.result === 0) {
+          if (res.result === 0) {
             this.$router.push('/')
-          } else if (res.data.result === 1) {
+          } else if (res.result === 1) {
             this.$router.push('/')
           } else {
             this.$message.error('登出失败')

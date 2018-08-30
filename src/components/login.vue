@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import qs from 'qs'
 export default {
   name: 'login',
   data () {
@@ -39,7 +38,7 @@ export default {
       }
     }
     return {
-      msg: '后台管理系统',
+      msg: '登录',
       formData: {
         name: '',
         password: ''
@@ -105,10 +104,10 @@ export default {
       })
     },
     getCaptcha () {
-      this.axios.get('/back_manage/api/captcha').then(res => {
-        if (res.data.result === 1) {
-          this.captchaImg = res.data.data
-          this.captchaText = res.data.text.toLowerCase()
+      this.$http.get('/back_manage/api/captcha').then(res => {
+        if (res.result === 1) {
+          this.captchaImg = res.data
+          this.captchaText = res.text.toLowerCase()
         }
       })
         .catch(err => {

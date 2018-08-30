@@ -49,16 +49,9 @@ export default{
   },
   methods: {
     getArticles () {
-      this.axios.get('/back_manage/api/articles').then(res => {
-        if (res.data.result === 0) {
-          this.$alert('你未登录或身份已过期！', '提示', {
-            type: 'warning',
-            callback: action => {
-              this.$router.push('/')
-            }
-          })
-        } else if (res.data.result === 1) {
-          this.articleList = res.data.data
+      this.$http.get(this.ROOTSERVER+'back_manage/api/articles').then(res => {
+        if (res.result === 1) {
+          this.articleList = res.data
         } else {
           this.$message.error('获取失败')
         }
@@ -73,15 +66,8 @@ export default{
       this.$confirm('确认删除所选文章', '提示', {
         type: 'warning'
       }).then(() => {
-        this.axios('/back_manage/api/article/delete?id=' + val._id).then(res => {
-          if (res.data.result === 0) {
-            this.$alert('你未登录或身份已过期！', '提示', {
-              type: 'warning',
-              callback: action => {
-                this.$router.push('/')
-              }
-            })
-          } else if (res.data.result === 1) {
+        this.$http.get(this.ROOTSERVER+'back_manage/api/article/delete?id=' + val._id).then(res => {
+          if (res.result === 1) {
             this.$message.success('删除成功')
             this.getArticles()
           } else {

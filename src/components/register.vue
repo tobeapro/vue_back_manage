@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import qs from 'qs'
 export default {
   name: 'regiser',
   data () {
@@ -37,7 +36,7 @@ export default {
       }
     }
     return {
-      msg: '后台管理系统',
+      msg: '注册',
       checkData: {
         name: '',
         password: ''
@@ -71,12 +70,12 @@ export default {
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
           let data = qs.stringify(this.checkData)
-          this.axios.post('/back_manage/api/register', data, {timeout: 6000}).then(res => {
-            if (res.data.result === 1) {
+          this.$http.postForm(this.ROOTSERVER+'back_manage/api/register', data).then(res => {
+            if (res.result === 1) {
               this.$message.success('注册成功')
               this.$router.push('/')
-            } else if (res.data.result === 2) {
-              this.$message.warning(res.data.msg)
+            } else if (res.result === 2) {
+              this.$message.warning(res.msg)
             } else {
               this.$message.error('注册失败')
             }

@@ -15,7 +15,6 @@
   </div>
 </template>
 <script>
-import qs from 'qs'
 export default {
   name: 'newArticle',
   data () {
@@ -34,17 +33,10 @@ export default {
     },
     addItem () {
       this.item.create_time = new Date()
-      this.axios.post('/back_manage/api/article/new', qs.stringify(this.item)).then(res => {
-        if (res.data.result === 0) {
-          this.$alert('你未登录或身份已过期！', '提示', {
-            type: 'warning',
-            callback: action => {
-              this.$router.push('/')
-            }
-          })
-        } else if (res.data.result === 1) {
+      this.$http.postForm('/back_manage/api/article/new', this.item).then(res => {
+        if (res.result === 1) {
           this.$message.success('添加成功！')
-          this.$router.push({path: '/articleDetail', query: {id: res.data.data._id}})
+          this.$router.push({path: '/articleDetail', query: {id: res.data._id}})
         } else {
           this.$message.error('添加失败')
         }
@@ -53,20 +45,18 @@ export default {
       })
     },
     uploadImg (name, file) {
-      let data = new FormData()
-      data.append('file', file)
-      this.axios.post('/back_manage/api/upload_img', data).then(res => {
-        if (res.data.result === 0) {
+      this.$http.postFile(this.ROOTSERVER+ 'back_manage/api/upload_img', {file}).then(res => {
+        if (res.result === 0) {
           this.$alert('你未登录或身份已过期！', '提示', {
             type: 'warning',
             callback: action => {
               this.$router.push('/')
             }
           })
-        } else if (res.data.result === 1) {
+        } else if (res.result === 1) {
           this.$message.success('上传成功')
           const $vm = this.$refs['md']
-          $vm.$img2Url(name, res.data.url)
+          $vm.$img2Url(name, res.url)
         } else {
           this.$message.error('上传失败')
         }

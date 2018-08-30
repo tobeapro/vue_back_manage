@@ -8,8 +8,9 @@
         <div class="cus-form-item" v-if="infoData.avatar">
           <img class="avatar" :src="ROOTSERVER+infoData.avatar" />
           <el-upload
-            action="/back_manage/api/upload_avatar"
+            :action="ROOTSERVER+'back_manage/api/upload_avatar'"
             :data="userInfo"
+            :with-credentials="true"
             :before-upload="beforeUpload"
             :on-success="successUpload"
             class="upload-item"
@@ -20,8 +21,9 @@
         <div class="cus-form-item" v-else>
           <img class="avatar" :src="ROOTSERVER+'public/img/no_avatar.png'"/>
           <el-upload
-            action="/back_manage/api/upload_avatar"
+            :action="ROOTSERVER+'back_manage/api/upload_avatar'"
             :data="userInfo"
+            :with-credentials="true"
             :before-upload="beforeUpload"
             :on-success="successUpload"
             class="upload-item"
@@ -52,7 +54,6 @@
   </div>
 </template>
 <script>
-import qs from 'qs'
 export default{
   name: 'info',
   data () {
@@ -83,14 +84,7 @@ export default{
   methods: {
     getInfo () {
       this.$http.get(this.ROOTSERVER + 'back_manage/api/getInfo').then(res => {
-        if (res.result === 0) {
-          this.$alert('你未登录或身份已过期！', '提示', {
-            type: 'warning',
-            callback: action => {
-              this.$router.push('/')
-            }
-          })
-        } else if (res.result === 1) {
+        if (res.result === 1) {
           this.infoData = res.data
           this.userInfo.id = res.data._id
         } else {
@@ -112,11 +106,20 @@ export default{
       return isJPG && isLt2M
     },
     successUpload (res, file, fileList) {
-      if (res.result === 1) {
+      if (res.result === 0 ){
+        this.$alert('你未登录或登录信息已失效', '提示', {
+          type: 'warning',
+          callback: () => {
+            this.$router.push('/')
+          }
+        })
+      }else if (res.result === 1) {
         this.$message.success('上传成功')
         this.infoData = Object.assign({}, this.infoData, {avatar: res.url})
         fileList = ''
         // this.$set(this.infoData, 'avatar', res.url)
+      }else {
+
       }
     },
     cancel () {
@@ -129,20 +132,13 @@ export default{
           return false
         }
         const data = Object.assign({}, {id: this.userInfo.id}, this.form)
-        this.axios.post('/back_manage/api/pwdUpdate', qs.stringify(data)).then(res => {
-          if (res.data.result === 0) {
-            this.$alert('你未登录或身份已过期！', '提示', {
-              type: 'warning',
-              callback: action => {
-                this.$router.push('/')
-              }
-            })
-          } else if (res.data.result === 1) {
+        this.$http.postForm(this.ROOTSERVER+'back_manage/api/pwdUpdate', data).then(res => {
+          if (res.result === 1) {
             this.changeStatus = false
             this.$message.success('修改成功')
             this.cancel()
           } else {
-            this.$message.warning(res.data.msg)
+            this.$message.warning(res.msg)
           }
         }).catch(() => {
           this.$message.error('修改失败')
