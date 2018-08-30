@@ -14,7 +14,6 @@ import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 Vue.component('icon', Icon)
 Vue.use(ElementUI)
-Vue.prototype.axios = axios
 Vue.use(CommonUtils, { axios, router })
 Vue.use(mavonEditor)
 Vue.config.productionTip = false

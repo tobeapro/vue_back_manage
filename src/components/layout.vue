@@ -7,7 +7,7 @@
         <i></i>
       </div>
       <div class="header-info">
-        <el-dropdown>
+        <el-dropdown trigger="click">
           <span class="el-dropdown-link">
             {{name}}<i class="el-icon-arrow-down el-icon--right"></i>
           </span>
@@ -86,7 +86,7 @@ export default {
       })
     },
     confirmOut () {
-      this.$http.get.get(this.ROOTSERVER+'back_manage/api/logout')
+      this.$http.get(this.ROOTSERVER+'back_manage/api/logout')
         .then(res => {
           if (res.result === 0) {
             this.$router.push('/')

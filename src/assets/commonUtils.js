@@ -47,6 +47,7 @@ export default {
             withCredentials: true,
             timeout: 6000
           }).then(res => {
+            url.indexOf('back_manage/api/logout')!==-1 ? resolve(checkTimeout(res.data)) : resolve(res.data)
             resolve(checkTimeout(res.data))
           }).catch(err => {
             reject(err)
