@@ -100,7 +100,7 @@ router.get('/back_manage/api/getInfo', (req, res, next) => {
       delete data.password
       res.send({ result: 1, data: data })
     } else {
-      res.send({ msg: '用户不存在' })
+      res.send({ result: 2, msg: '用户不存在' })
     }
   })
 })
@@ -120,7 +120,7 @@ router.post('/back_manage/api/upload_avatar', (req, res, next) => {
     }
     models.user.findById(fields.id, (err, doc) => {
       if (err) {
-        return res.send({ result: 2, msg: '未找到该用户' })
+        return res.send({ result: 2, msg: '系统异常' })
       }
       if (doc) {
         const imgPath = files.file.path
@@ -136,6 +136,8 @@ router.post('/back_manage/api/upload_avatar', (req, res, next) => {
             return res.send({ result: 1, msg: '上传成功', url: 'public/resource/' + path.basename(imgPath) })
           })
         })
+      }else{
+        return res.send({ result: 2, msg: '未找到该用户' })
       }
     })
   })
@@ -145,7 +147,7 @@ router.post('/back_manage/api/upload_avatar', (req, res, next) => {
 })
 // 修改密码
 router.post('/back_manage/api/pwdUpdate', (req, res, next) => {
-  models.user.findById(req.body.id, (err, data) => {
+  models.user.findOne({ name: req.session.name }, (err, data) => {
     if (err) {
       res.send(err)
       next()
@@ -201,7 +203,7 @@ router.post('/back_manage/api/upload_img', (req, res, next) => {
       if (err) {
         res.send({ result: 2, msg: '上传失败' })
       }
-      res.send({ result: 1, msg: '上传成功', url: '/public/resource/' + path.basename(imgPath) })
+      res.send({ result: 1, msg: '上传成功', url: 'public/resource/' + path.basename(imgPath) })
     })
   })
   form.on('error', err => {
