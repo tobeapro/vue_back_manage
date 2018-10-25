@@ -69,8 +69,7 @@ export default {
     register () {
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
-          let data = qs.stringify(this.checkData)
-          this.$http.postForm(this.ROOTSERVER+'back_manage/api/register', data).then(res => {
+          this.$http.postForm(this.ROOTSERVER+'back_manage/api/register', this.checkData).then(res => {
             if (res.result === 1) {
               this.$message.success('注册成功')
               this.$router.push('/')
