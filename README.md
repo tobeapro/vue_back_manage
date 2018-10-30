@@ -16,7 +16,8 @@
 #### 3、总结，其他依赖
 ##### 3.1 使用`express-session`node的session鉴权方案
 ##### 3.2 使用`svg-captcha`node实现的svg验证码
-##### 3.3 使用`formidable`上传图片的第三方插件
+##### 3.3 使用`mavon-editor`富文本编辑器插件
+##### 3.4 使用`formidable`上传图片的第三方插件
 
 
 ## 补充：用nuxt实现ssr前台页面
