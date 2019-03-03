@@ -86,7 +86,7 @@ export default {
       })
     },
     confirmOut () {
-      this.$http.get(this.ROOTSERVER+'back_manage/api/logout')
+      this.$http.get(this.ROOTSERVER+'/back_manage/api/logout')
         .then(res => {
           if (res.result === 0) {
             this.$router.push('/')

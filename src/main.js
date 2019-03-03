@@ -18,8 +18,8 @@ Vue.use(CommonUtils, { axios, router })
 Vue.use(mavonEditor)
 Vue.config.productionTip = false
 
-const DEVSERVER = 'http://localhost:4000/'
-const PRODSERVER = '/'
+const DEVSERVER = 'http://localhost:4000'
+const PRODSERVER = ''
 if (process.env.NODE_ENV === 'development') {
   Vue.prototype.ROOTSERVER = DEVSERVER
   global.APIHOST = DEVSERVER + 'back_manage/'

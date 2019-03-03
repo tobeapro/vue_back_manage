@@ -44,10 +44,9 @@ export default {
           axios({
             method: 'get',
             url,
-            withCredentials: true,
-            timeout: 6000
+            withCredentials: true
           }).then(res => {
-            url.indexOf('back_manage/api/logout')!==-1 ? resolve(checkTimeout(res.data)) : resolve(res.data)
+            url.indexOf('back_manage/api/logout') !== -1 ? resolve(checkTimeout(res.data)) : resolve(res.data)
             resolve(checkTimeout(res.data))
           }).catch(err => {
             reject(err)
@@ -59,9 +58,8 @@ export default {
           axios({
             method: 'post',
             url,
-            data: JSON.stringify(data),
+            data,
             withCredentials: true,
-            timeout: 6000,
             headers: { 'Content-Type': 'application/json; charset=utf-8' }
           }).then(res => {
             resolve(checkTimeout(res.data))
@@ -77,7 +75,6 @@ export default {
             url,
             data: qs.stringify(data),
             withCredentials: true,
-            timeout: 6000,
             headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8' }
           }).then(res => {
             resolve(checkTimeout(res.data))
@@ -93,7 +90,6 @@ export default {
             url,
             data: encodeFormData(data),
             withCredentials: true,
-            timeout: 6000,
             headers: { 'Content-Type': 'multipart/form-data' }
           }).then(res => {
             resolve(checkTimeout(res.data))

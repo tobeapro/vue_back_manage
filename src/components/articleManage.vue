@@ -3,12 +3,25 @@
     <div class="header">
       <el-button type="primary" size="small" @click="()=>{this.$router.push('/newArticle')}">新增文章</el-button>
     </div>
+    <el-form inline size="small" label-width="80px">
+      <el-form-item label="标题">
+        <el-input v-model.trim="filter.title" @change="getArticles" clearable>
+        </el-input>
+      </el-form-item>
+      <el-form-item label="分类">
+        <el-select v-model="filter.classify" @change="getArticles" clearable filterable>
+          <el-option v-for="item in classifyList" :key="item.id" :value="item.id" :label="item.name"></el-option>
+        </el-select>
+      </el-form-item>
+    </el-form>
     <div>
       <div v-if="articleList.length">
           <el-table ref="table" :data="articleList"  size="mini" border stripe align="right" :default-sort="defaultSort">
             <el-table-column type="index" width="50" fixed="left">
             </el-table-column>
             <el-table-column prop="title" label="标题">
+            </el-table-column>
+            <el-table-column prop="classify" label="分类">
             </el-table-column>
             <el-table-column prop="create_time" label="发布时间" sortable>
               <template slot-scope="props">
@@ -35,13 +48,19 @@
   </div>
 </template>
 <script>
+import businessData from '@/assets/businessData';
 export default{
   name: 'articleManage',
   data () {
     return {
       msg: 'this is article',
       defaultSort: {prop: 'create_time', order: 'descending'},
-      articleList: []
+      filter:{
+        title: '',
+        classify: ''
+      },
+      articleList: [],
+      classifyList:businessData.classifyList
     }
   },
   created () {
@@ -49,11 +68,11 @@ export default{
   },
   methods: {
     getArticles () {
-      this.$http.get(this.ROOTSERVER+'back_manage/api/articles').then(res => {
+      this.$http.postJSON(this.ROOTSERVER+'/back_manage/api/articles',{
+        ...this.filter
+      }).then(res => {
         if (res.result === 1) {
           this.articleList = res.data
-        } else {
-          this.$message.error('获取失败')
         }
       }).catch(() => {
         this.$message.error('获取失败')
@@ -66,12 +85,10 @@ export default{
       this.$confirm('确认删除所选文章', '提示', {
         type: 'warning'
       }).then(() => {
-        this.$http.get(this.ROOTSERVER+'back_manage/api/article/delete?id=' + val._id).then(res => {
+        this.$http.get(this.ROOTSERVER+'/back_manage/api/article/delete?id=' + val._id).then(res => {
           if (res.result === 1) {
             this.$message.success('删除成功')
             this.getArticles()
-          } else {
-            this.$message.error('删除失败')
           }
         }).catch(() => {
           this.$message.error('删除失败')

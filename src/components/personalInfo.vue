@@ -8,7 +8,7 @@
         <div class="cus-form-item" v-if="infoData.avatar">
           <img class="avatar" :src="ROOTSERVER+infoData.avatar" />
           <el-upload
-            :action="ROOTSERVER+'back_manage/api/upload_avatar'"
+            :action="ROOTSERVER+'/back_manage/api/upload_avatar'"
             :data="userInfo"
             :with-credentials="true"
             :before-upload="beforeUpload"
@@ -19,9 +19,9 @@
           </el-upload>
         </div>
         <div class="cus-form-item" v-else>
-          <img class="avatar" :src="ROOTSERVER+'public/img/no_avatar.png'"/>
+          <img class="avatar" :src="ROOTSERVER+'/public/img/no_avatar.png'"/>
           <el-upload
-            :action="ROOTSERVER+'back_manage/api/upload_avatar'"
+            :action="ROOTSERVER+'/back_manage/api/upload_avatar'"
             :data="userInfo"
             :with-credentials="true"
             :before-upload="beforeUpload"
@@ -83,15 +83,11 @@ export default{
   },
   methods: {
     getInfo () {
-      this.$http.get(this.ROOTSERVER + 'back_manage/api/getInfo').then(res => {
+      this.$http.get(this.ROOTSERVER + '/back_manage/api/getInfo').then(res => {
         if (res.result === 1) {
           this.infoData = res.data
           this.userInfo.id = res.data._id
-        } else {
-          this.$message.error(res.msg)
         }
-      }).catch(() => {
-        this.$message.error('登录出错')
       })
     },
     beforeUpload (file) {
@@ -118,8 +114,6 @@ export default{
         this.infoData = Object.assign({}, this.infoData, {avatar: res.url})
         fileList = ''
         // this.$set(this.infoData, 'avatar', res.url)
-      }else {
-
       }
     },
     cancel () {
@@ -132,13 +126,11 @@ export default{
           return false
         }
         const data = Object.assign({}, {id: this.userInfo.id}, this.form)
-        this.$http.postForm(this.ROOTSERVER+'back_manage/api/pwdUpdate', data).then(res => {
+        this.$http.postForm(this.ROOTSERVER+'/back_manage/api/pwdUpdate', data).then(res => {
           if (res.result === 1) {
             this.changeStatus = false
             this.$message.success('修改成功')
             this.cancel()
-          } else {
-            this.$message.warning(res.msg)
           }
         }).catch(() => {
           this.$message.error('修改失败')

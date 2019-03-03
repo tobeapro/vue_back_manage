@@ -81,7 +81,7 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.$nextTick(() => {
-            this.$http.postForm('/back_manage/api/login',this.formData).then(res => {
+            this.$http.postForm(this.ROOTSERVER +'/back_manage/api/login',this.formData).then(res => {
               if (res.result === 1) {
                 this.$message.success(res.msg)
                 sessionStorage.setItem('name', this.formData.name)
@@ -104,7 +104,7 @@ export default {
       })
     },
     getCaptcha () {
-      this.$http.get('/back_manage/api/captcha').then(res => {
+      this.$http.get(this.ROOTSERVER+'/back_manage/api/captcha').then(res => {
         if (res.result === 1) {
           this.captchaImg = res.data
           this.captchaText = res.text.toLowerCase()
