@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="container">
     <el-form ref="form" :model="itemForm" :rules="itemFormRules" label-width="80px">
       <el-form-item label="标题" prop="title">
-        <el-input v-model.trim="itemForm.title" placeholder="标题长度不超过12字符" maxlength="12"></el-input>
+        <el-input v-model.trim="itemForm.title" placeholder="标题长度不超过20字符" maxlength="20" clearable></el-input>
       </el-form-item>
       <el-form-item label="分类" prop="classify">
         <el-select v-model.trim="itemForm.classify" multiple placeholder="分类" filterable style="width:100%">
@@ -15,19 +15,19 @@
         </el-select>
       </el-form-item>
       <el-form-item label="封面图">
+        <img :src="ROOTSERVER+itemForm.face_img" v-if="itemForm.face_img" style="max-height:200px;" />
         <el-upload
+            ref="upload"
             :action="ROOTSERVER+'/back_manage/api/upload_img'"
             :with-credentials="true"
             :before-upload="beforeUpload"
             :on-success="successUpload"
-            class="upload-item"
-            >
+            class="upload-item">
             <el-button type="primary" size="small">上传图片</el-button>
-            <img :src="ROOTSERVER+itemForm.face_img" v-if="itemForm.face_img" />
-          </el-upload>
+        </el-upload>
       </el-form-item>
       <el-form-item label="文章内容" prop="content" class="article-content">
-        <mavon-editor ref="md" @change="changeContent" @imgAdd="uploadImg" v-model.trim="itemForm.content" />
+        <mavon-editor ref="md" fontSize="14px" codeStyle="atom-one-dark" @change="changeContent" @imgAdd="uploadImg" v-model.trim="itemForm.content" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" size="small" @click="addItem">确认</el-button>
@@ -66,7 +66,7 @@ export default {
       this.$refs.form.validate(valid=>{
         if(valid){
           this.itemForm.create_time = new Date().getTime()
-          this.$http.postForm('/back_manage/api/article/new', this.itemForm).then(res => {
+          this.$http.postForm(this.ROOTSERVER + '/back_manage/api/article/new', this.itemForm).then(res => {
             if (res.result === 1) {
               this.$message.success('添加成功！')
               this.$router.push({path: '/articleDetail', query: {id: res.data._id}})
@@ -90,7 +90,7 @@ export default {
       }
       return isJPG && isLt2M
     },
-    successUpload (res, file, fileList) {
+    successUpload (res) {
       if (res.result === 0 ){
         this.$alert('你未登录或登录信息已失效', '提示', {
           type: 'warning',
@@ -101,15 +101,15 @@ export default {
       }else if (res.result === 1) {
         this.$message.success('上传成功')
         this.itemForm.face_img = res.url
-        fileList = ''
       }
+      this.$refs.upload.clearFiles()
     },
     uploadImg (name, file) {
-      this.$http.postFile(this.ROOTSERVER+ '/back_manage/api/upload_img', {file}).then(res => {
+      this.$http.postFile(this.ROOTSERVER + '/back_manage/api/upload_img', {file}).then(res => {
         if (res.result === 0) {
           this.$alert('你未登录或身份已过期！', '提示', {
             type: 'warning',
-            callback: action => {
+            callback: () => {
               this.$router.push('/')
             }
           })

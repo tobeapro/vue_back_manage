@@ -5,9 +5,11 @@
         <span>{{infoData.name}}</span>
       </el-form-item>
       <el-form-item label="头像">
-        <div class="cus-form-item" v-if="infoData.avatar">
-          <img class="avatar" :src="ROOTSERVER+infoData.avatar" />
+        <div class="cus-form-item">
+          <img class="avatar" v-if="infoData.avatar" :src="ROOTSERVER+infoData.avatar" />
+          <img class="avatar" v-else :src="ROOTSERVER+'/public/img/no_avatar.png'"/>
           <el-upload
+            ref="upload"
             :action="ROOTSERVER+'/back_manage/api/upload_avatar'"
             :data="userInfo"
             :with-credentials="true"
@@ -15,25 +17,12 @@
             :on-success="successUpload"
             class="upload-item"
             >
-            <el-button type="primary">更新头像</el-button>
-          </el-upload>
-        </div>
-        <div class="cus-form-item" v-else>
-          <img class="avatar" :src="ROOTSERVER+'/public/img/no_avatar.png'"/>
-          <el-upload
-            :action="ROOTSERVER+'/back_manage/api/upload_avatar'"
-            :data="userInfo"
-            :with-credentials="true"
-            :before-upload="beforeUpload"
-            :on-success="successUpload"
-            class="upload-item"
-            >
-            <el-button  type="primary">上传头像</el-button>
+            <el-button type="primary" size="small">{{infoData.avatar?'更新头像':'上传头像'}}</el-button>
           </el-upload>
         </div>
       </el-form-item>
       <el-form-item label="密码">
-        <el-button @click="changeStatus=true">修改密码</el-button>
+        <el-button size="small" type="danger" @click="changeStatus=true">修改密码</el-button>
       </el-form-item>
       <el-form-item label="原密码" prop="oldPwd" class="cus-input-item" v-show="changeStatus">
         <el-input type="password" v-model.trim="form.oldPwd"></el-input>
@@ -101,7 +90,7 @@ export default{
       }
       return isJPG && isLt2M
     },
-    successUpload (res, file, fileList) {
+    successUpload (res) {
       if (res.result === 0 ){
         this.$alert('你未登录或登录信息已失效', '提示', {
           type: 'warning',
@@ -112,9 +101,8 @@ export default{
       }else if (res.result === 1) {
         this.$message.success('上传成功')
         this.infoData = Object.assign({}, this.infoData, {avatar: res.url})
-        fileList = ''
-        // this.$set(this.infoData, 'avatar', res.url)
       }
+      this.$refs.upload.clearFiles()
     },
     cancel () {
       this.changeStatus = false
@@ -145,7 +133,7 @@ export default{
   padding:20px 0;
   background-color:#fff;
   .el-form-item__label,.el-form-item__content{
-    font-size:18px;
+    font-size:16px;
   }
   .cus-form-item{
     display:flex;
