@@ -101,6 +101,8 @@ export default{
       }else if (res.result === 1) {
         this.$message.success('上传成功')
         this.infoData = Object.assign({}, this.infoData, {avatar: res.url})
+      }else{
+        this.$message.error(res.msg||'上传失败')
       }
       this.$refs.upload.clearFiles()
     },

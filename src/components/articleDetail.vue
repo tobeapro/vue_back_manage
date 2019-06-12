@@ -134,6 +134,8 @@ export default {
       }else if (res.result === 1) {
         this.$message.success('上传成功')
         this.submitItem.face_img = res.url
+      }else{
+        this.$message.error(res.msg||'上传失败')
       }
       this.$refs.upload.clearFiles()
     },
