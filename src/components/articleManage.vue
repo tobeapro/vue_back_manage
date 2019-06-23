@@ -82,16 +82,20 @@ export default{
       this.$router.push({path: 'articleDetail', query: {id: val._id}})
     },
     deleteArticle (val) {
-      this.$confirm('确认删除所选文章', '提示', {
-        type: 'warning'
-      }).then(() => {
-        this.$http.get(this.ROOTSERVER+'/back_manage/api/article/delete?id=' + val._id).then(res => {
-          if (res.result === 1) {
-            this.$message.success('删除成功')
-            this.getArticles()
-          }
-        }).catch(() => {
-          this.$message.error('删除失败')
+      this.$confirm('此操作将永久删除该文件, 是否继续?','提示',{
+        type:'warning'
+      }).then(()=>{
+        this.$confirm('确认删除所选文章', '提示', {
+          type: 'warning'
+        }).then(() => {
+          this.$http.get(this.ROOTSERVER+'/back_manage/api/article/delete?id=' + val._id).then(res => {
+            if (res.result === 1) {
+              this.$message.success('删除成功')
+              this.getArticles()
+            }
+          }).catch(() => {
+            this.$message.error('删除失败')
+          })
         })
       })
     }
