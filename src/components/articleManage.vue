@@ -42,7 +42,7 @@
           </el-table>
       </div>
       <div v-else>
-          <el-button type="text">没有文章,去添加</el-button>
+          <el-button type="text" @click="()=>{this.$router.push('/newArticle')}">没有文章,去添加</el-button>
       </div>
     </div>
   </div>

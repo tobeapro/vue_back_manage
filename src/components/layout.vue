@@ -37,7 +37,11 @@
           </el-menu-item>
           <el-menu-item index="articleManage">
             <i class="el-icon-document"></i>
-            <span slot="title">文章</span>
+            <span slot="title">文章管理</span>
+          </el-menu-item>
+          <el-menu-item index="userManage">
+            <i class="el-icon-user-solid"></i>
+            <span slot="title">用户管理</span>
           </el-menu-item>
         </el-menu>
       </el-aside>

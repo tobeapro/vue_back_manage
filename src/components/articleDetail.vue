@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <el-form ref="form" :model="item" :rules="itemFormRules" label-width="80px">
+    <el-form ref="form" :model="submitItem" :rules="itemFormRules" label-width="80px">
       <el-form-item label="标题" prop="title">
         <div v-text="item.title" v-if="!editStatus"></div>
         <el-input v-else v-model.trim="submitItem.title" placeholder="标题长度不超过20字符" maxlength="20"></el-input>
@@ -36,7 +36,7 @@
       </el-form-item>
       <el-form-item label="文章内容" prop="content" class="article-content">
         <div class="markdown-article" v-html="translateMarkdown(item.content)" v-if="!editStatus"></div>
-        <mavon-editor v-else ref="md" fontSize="14px" codeStyle="atom-one-dark" @change="changeContent" @imgAdd="uploadImg" v-model="submitItem.content" />
+        <mavon-editor v-else ref="md" fontSize="14px" codeStyle="atom-one-dark" @imgAdd="uploadImg" v-model="submitItem.content" />
       </el-form-item>
       <el-form-item>
         <div v-if="editStatus">
@@ -109,9 +109,6 @@ export default {
       const classify = this.item.classify.split(',')
       this.submitItem = Object.assign({face_img:''}, this.item,{classify})
     },
-    changeContent (content, contentHtml) {
-      this.submitItem.contentHtml = contentHtml
-    },
     beforeUpload (file) {
       const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
@@ -155,8 +152,8 @@ export default {
     saveItem () {
       this.$refs.form.validate(valid=>{
         if(valid){
-          this.submitItem.update_time = new Date().getTime()
-          this.$http.postForm(this.ROOTSERVER+'/back_manage/api/article/update', this.submitItem).then(res => {
+          const submitItem = Object.assign({},this.submitItem,{classify:this.submitItem.classify?this.submitItem.classify.join(','):''})
+          this.$http.postForm(this.ROOTSERVER+'/back_manage/api/article/update', submitItem).then(res => {
             if (res.result === 1) {
               this.$message.success('更新成功')
               this.getItem()

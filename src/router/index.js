@@ -9,6 +9,7 @@ import personalInfo from '@/components/personalInfo'
 import articleManage from '@/components/articleManage'
 import newArticle from '@/components/newArticle'
 import articleDetail from '@/components/articleDetail'
+import userManage from '@/components/userManage';
 Vue.use(Router)
 
 export default new Router({
@@ -58,6 +59,11 @@ export default new Router({
           meta: {
             group: 'articleManage'
           }
+        },
+        {
+          path: '/userManage',
+          name: 'userManage',
+          component: userManage
         }
       ]
     },

@@ -27,7 +27,7 @@
         </el-upload>
       </el-form-item>
       <el-form-item label="文章内容" prop="content" class="article-content">
-        <mavon-editor ref="md" fontSize="14px" codeStyle="atom-one-dark" @change="changeContent" @imgAdd="uploadImg" v-model.trim="itemForm.content" />
+        <mavon-editor ref="md" fontSize="14px" codeStyle="atom-one-dark" @imgAdd="uploadImg" v-model.trim="itemForm.content" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" size="small" @click="addItem">确认</el-button>
@@ -47,8 +47,6 @@ export default {
         classify: '',
         face_img:'',
         content: '',
-        contentHtml: '',
-        create_time: ''
       },
       itemFormRules:{
         title: [{required:true,message:'请输入标题'}],
@@ -59,14 +57,11 @@ export default {
     }
   },
   methods: {
-    changeContent (content, contentHtml) {
-      this.itemForm.contentHtml = contentHtml
-    },
     addItem () {
       this.$refs.form.validate(valid=>{
         if(valid){
-          this.itemForm.create_time = new Date().getTime()
-          this.$http.postForm(this.ROOTSERVER + '/back_manage/api/article/new', this.itemForm).then(res => {
+          const itemForm = Object.assign({},this.itemForm,{classify:this.itemForm.classify?this.itemForm.classify.join(','):''}) 
+          this.$http.postForm(this.ROOTSERVER + '/back_manage/api/article/new', itemForm).then(res => {
             if (res.result === 1) {
               this.$message.success('添加成功！')
               this.$router.push({path: '/articleDetail', query: {id: res.data._id}})
