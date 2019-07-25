@@ -22,6 +22,7 @@
             :with-credentials="true"
             :before-upload="beforeUpload"
             :on-success="successUpload"
+            :on-error="errorUpload"
             class="upload-item">
             <el-button type="primary" size="small">上传图片</el-button>
         </el-upload>
@@ -76,14 +77,14 @@ export default {
     },
     beforeUpload (file) {
       const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
-      const isLt2M = file.size / 1024 / 1024 < 2
+      const isLt2M = file.size / 1024 / 1024 < 3
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是JPG/PNG格式!')
+        this.$message.error('图片只能是JPG/PNG格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过2MB!')
+        this.$message.error('图片大小不能超过3MB!')
       }
-      return isJPG && isLt2M
+      return isJPG&&isLt2M 
     },
     successUpload (res) {
       if (res.result === 0 ){
@@ -96,8 +97,13 @@ export default {
       }else if (res.result === 1) {
         this.$message.success('上传成功')
         this.itemForm.face_img = res.url
+      }else{
+        this.$message.error(res.msg||'上传失败')
       }
       this.$refs.upload.clearFiles()
+    },
+    errorUpload(err){
+      this.$message.error(err.toString()||'上传失败')
     },
     uploadImg (name, file) {
       this.$http.postFile(this.ROOTSERVER + '/back_manage/api/upload_img', {file}).then(res => {
