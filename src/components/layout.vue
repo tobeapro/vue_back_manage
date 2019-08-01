@@ -28,11 +28,11 @@
         :collapse="isCollapse"
         router>
           <el-menu-item index="home">
-            <i class="el-icon-location"></i>
+            <i class="el-icon-s-home"></i>
             <span slot="title">首页</span>
           </el-menu-item>
           <el-menu-item index="personalInfo">
-            <i class="el-icon-menu"></i>
+            <i class="el-icon-user"></i>
             <span slot="title">个人信息</span>
           </el-menu-item>
           <el-menu-item index="articleManage">
@@ -42,6 +42,10 @@
           <el-menu-item index="userManage">
             <i class="el-icon-user-solid"></i>
             <span slot="title">用户管理</span>
+          </el-menu-item>
+          <el-menu-item index="classifyManage">
+            <i class="el-icon-collection-tag"></i>
+            <span slot="title">分类管理</span>
           </el-menu-item>
         </el-menu>
       </el-aside>

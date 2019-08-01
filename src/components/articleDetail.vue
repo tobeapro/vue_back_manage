@@ -10,8 +10,8 @@
         <el-select v-else v-model.trim="submitItem.classify" multiple placeholder="分类" filterable style="width:100%">
           <el-option
             v-for="child in classifyList"
-            :key="child.id"
-            :value="child.id"
+            :key="child._id"
+            :value="child.name"
             :label="child.name"
           ></el-option>
         </el-select>
@@ -52,7 +52,6 @@
   </div>
 </template>
 <script>
-import businessData from '@/assets/businessData';
 import marked from 'marked';
 import hljs from 'highlight.js';
 export default {
@@ -62,7 +61,7 @@ export default {
       item: {},
       editStatus: false,
       submitItem: {},
-      classifyList:businessData.classifyList,
+      classifyList:[],
       itemFormRules:{
         title: [{required:true,message:'请输入标题'}],
         classify: [{required:true,message:'请选择分类标识'}],
@@ -72,6 +71,7 @@ export default {
   },
   created () {
     this.getItem()
+    this.getClassify()
   },
   methods: {
     getItem () {
@@ -163,6 +163,15 @@ export default {
             this.$message.error('更新失败')
           })
         }
+      })
+    },
+    getClassify(){
+      this.$http.postJSON(this.ROOTSERVER+'/front_manage/api/classify/list').then(res => {
+          if (res.result === 1) {
+            this.classifyList = res.data||[]
+          }
+      }).catch(() => {
+          this.$message.error('获取失败')
       })
     }
   }
