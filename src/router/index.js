@@ -10,6 +10,8 @@ import articleManage from '@/components/articleManage'
 import newArticle from '@/components/newArticle'
 import articleDetail from '@/components/articleDetail'
 import userManage from '@/components/userManage';
+import classifyManage from '@/components/classifyManage';
+
 Vue.use(Router)
 
 export default new Router({
@@ -64,6 +66,11 @@ export default new Router({
           path: '/userManage',
           name: 'userManage',
           component: userManage
+        },
+        {
+          path: '/classifyManage',
+          name: 'classifyManage',
+          component: classifyManage
         }
       ]
     },

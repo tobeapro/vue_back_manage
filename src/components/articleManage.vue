@@ -10,7 +10,7 @@
       </el-form-item>
       <el-form-item label="分类">
         <el-select v-model="filter.classify" @change="getArticles" clearable filterable>
-          <el-option v-for="item in classifyList" :key="item.id" :value="item.id" :label="item.name"></el-option>
+          <el-option v-for="item in classifyList" :key="item._id" :value="item.name" :label="item.name"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
@@ -48,7 +48,6 @@
   </div>
 </template>
 <script>
-import businessData from '@/assets/businessData';
 export default{
   name: 'articleManage',
   data () {
@@ -60,11 +59,12 @@ export default{
         classify: ''
       },
       articleList: [],
-      classifyList:businessData.classifyList
+      classifyList:[]
     }
   },
   created () {
     this.getArticles()
+    this.getClassify()
   },
   methods: {
     getArticles () {
@@ -97,6 +97,15 @@ export default{
             this.$message.error('删除失败')
           })
         })
+      })
+    },
+    getClassify(){
+      this.$http.postJSON(this.ROOTSERVER+'/front_manage/api/classify/list').then(res => {
+          if (res.result === 1) {
+            this.classifyList = res.data||[]
+          }
+      }).catch(() => {
+          this.$message.error('获取失败')
       })
     }
   }

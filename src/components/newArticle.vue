@@ -8,8 +8,8 @@
         <el-select v-model.trim="itemForm.classify" multiple placeholder="分类" filterable style="width:100%">
           <el-option
             v-for="item in classifyList"
-            :key="item.id"
-            :value="item.id"
+            :key="item._id"
+            :value="item.name"
             :label="item.name"
           ></el-option>
         </el-select>
@@ -38,7 +38,6 @@
   </div>
 </template>
 <script>
-import businessData from '@/assets/businessData';
 export default {
   name: 'newArticle',
   data () {
@@ -54,8 +53,11 @@ export default {
         classify: [{required:true,message:'请选择分类标识'}],
         content: [{required:true,message:'请输入内容'}],
       },
-      classifyList:businessData.classifyList
+      classifyList:[]
     }
+  },
+  created(){
+    this.getClassify()
   },
   methods: {
     addItem () {
@@ -123,6 +125,15 @@ export default {
         }
       }).catch(() => {
         this.$message.error('上传失败')
+      })
+    },
+    getClassify(){
+      this.$http.postJSON(this.ROOTSERVER+'/front_manage/api/classify/list').then(res => {
+          if (res.result === 1) {
+            this.classifyList = res.data||[]
+          }
+      }).catch(() => {
+          this.$message.error('获取失败')
       })
     }
   }
