@@ -1,0 +1,209 @@
+@import '~highlight.js/styles/atom-one-dark.css';
+.login {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+    // background:linear-gradient(to bottom, #ecf5ff, #95c5f7);
+    .login-form {
+        margin: 60px auto 0;
+        width: 500px;
+        .login-in {
+            margin-right: 20px;
+        }
+    }
+    h1 {
+        padding: 20px 0;
+    }
+}
+.container{
+  padding:10px;
+  background-color:#fff;
+}
+.el-table__body tr.hover-row>td{
+  background-color:#f0f9eb !important;
+}
+/*覆盖默认样式*/
+.markdown-body .highlight pre, .markdown-body pre {
+    font-size:100% !important;
+}
+.markdown-body>p>code{
+    margin: 0 2px;
+    padding: 2px 6px;
+    color: #fff;
+    background: #ffadd2;
+    border-radius: 4px;
+}
+/** markdown css **/
+.markdown-article{
+    padding:10px;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 14px;
+    line-height: 30px;
+    word-wrap: break-word;
+    -webkit-animation: spread .6s 1 ease-in-out;
+    -moz-animation: spread .6s 1 ease-in-out;
+    -o-animation: spread .6s 1 ease-in-out;
+    animation: spread .6s 1 ease-in-out;
+}
+.markdown-article pre,.markdown-article code{
+    font-family: Monaco, Andale Mono, Courier New, monospace;   
+    font-weight:bold;   
+    line-height: 26px;
+}
+.markdown-article>*:first-child {
+    margin-top: 0 !important
+}
+.markdown-article>*:last-child {
+    margin-bottom: 0 !important
+}
+.markdown-article a{
+    color:#1890ff;
+}
+.markdown-article a:not([href]) {
+    color: inherit;
+    text-decoration: none
+}
+.markdown-article p,.markdown-article blockquote,.markdown-article ul,.markdown-article ol,.markdown-article dl,.markdown-article table,.markdown-article pre {
+    margin-top: 0;
+    margin-bottom: 6px
+}
+.markdown-article hr {
+    height: .25em;
+    padding: 0;
+    margin: 24px 0;
+    background-color: #e1e4e8;
+    border: 0
+}
+.markdown-article blockquote {
+    padding: 0 1em;
+    color: #6a737d;
+    border-left: 0.25em solid #dfe2e5
+}
+.markdown-article blockquote>:first-child {
+    margin-top: 0
+}
+.markdown-article blockquote>:last-child {
+    margin-bottom: 0
+}
+.markdown-article h1,.markdown-article h2,.markdown-article h3,.markdown-article h4,.markdown-article h5,.markdown-article h6 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.markdown-article h1 {
+    padding-bottom: 0.3em;
+    font-size: 2em;
+    // color:#f30505;
+}
+.markdown-article h2 {
+    padding-bottom: 0.3em;
+    font-size: 1.5em;
+    // color:#0cd80a;
+}
+.markdown-article h3 {
+    font-size: 1.25em;
+    // color:#057bf7;
+}
+.markdown-article h4 {
+    font-size: 1.1em;
+    // color:#ffa500;
+}
+.markdown-article h5,.markdown-article h6 {
+    font-size: 1em
+}
+.markdown-article>p>img{
+    max-width:100%;
+    height:auto;
+}
+.markdown-article ul,.markdown-article ol {
+    padding-left: 2em;
+    list-style: disc;
+}
+.markdown-article ul ul,.markdown-article ul ol,.markdown-article ol ol,.markdown-article ol ul {
+    margin-top: 0;
+    margin-bottom: 0
+}
+.markdown-article li {
+    word-wrap: break-all;
+    list-style: disc;
+}
+.markdown-article li>p {
+    margin-top: 16px
+}
+.markdown-article li+li {
+    margin-top: .25em
+}
+.markdown-article dl {
+    padding: 0
+}
+.markdown-article dl dt {
+    padding: 0;
+    margin-top: 16px;
+    font-size: 1em;
+    font-style: italic;
+    font-weight: 600
+}
+.markdown-article dl dd {
+    padding: 0 16px;
+    margin-bottom: 16px
+}
+.markdown-article table {
+    display: block;
+    width: 100%;
+    overflow: auto
+}
+.markdown-article table th {
+    font-weight: 600
+}
+.markdown-article table th,.markdown-article table td {
+    padding: 6px 13px;
+    border: 1px solid #dfe2e5
+}
+.markdown-article table tr {
+    background-color: #fff;
+    border-top: 1px solid #c6cbd1
+}
+.markdown-article table tr:nth-child(2n) {
+    background-color: #f6f8fa
+}
+.markdown-article table img {
+    background-color: transparent
+}
+.markdown-article img {
+    max-width: 100%;
+    box-sizing: content-box;
+    background-color: #fff
+}
+.markdown-article tt {
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    border-radius: 3px
+}
+.markdown-article>p>code,
+.markdown-article>h1>code,
+.markdown-article>h2>code,
+.markdown-article>h3>code,
+.markdown-article>h4>code,
+.markdown-article>h5>code,
+.markdown-article>h6>code{
+    margin: 0 2px;
+    padding: 2px 6px;
+    color: #fff;
+    background: #ffadd2;
+    border-radius: 4px;
+}
+.markdown-article>pre{
+    display: block;
+    max-height:500px;
+    overflow: auto;
+    padding: 1em;
+    color: #abb2bf;
+    background: #282c34;
+}
+.markdown-article>pre>code{
+    font-size:14px;
+    font-weight:bold;	
+    line-height: 20px;
+}
