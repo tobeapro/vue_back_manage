@@ -2,7 +2,7 @@
   <div class="container">
     <el-form ref="form" :model="itemForm" :rules="itemFormRules" label-width="80px">
       <el-form-item label="标题" prop="title">
-        <el-input v-model.trim="itemForm.title" placeholder="标题长度不超过20字符" maxlength="20" clearable></el-input>
+        <el-input v-model.trim="itemForm.title" placeholder="标题长度不超过30字符" maxlength="30" clearable></el-input>
       </el-form-item>
       <el-form-item label="分类" prop="classify">
         <el-select v-model.trim="itemForm.classify" multiple placeholder="分类" filterable style="width:100%">

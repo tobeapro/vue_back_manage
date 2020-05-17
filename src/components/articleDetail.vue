@@ -3,7 +3,7 @@
     <el-form ref="form" :model="submitItem" :rules="itemFormRules" label-width="80px">
       <el-form-item label="标题" prop="title">
         <div v-text="item.title" v-if="!editStatus"></div>
-        <el-input v-else v-model.trim="submitItem.title" placeholder="标题长度不超过20字符" maxlength="20"></el-input>
+        <el-input v-else v-model.trim="submitItem.title" placeholder="标题长度不超过30字符" maxlength="30"></el-input>
       </el-form-item>
       <el-form-item label="分类" prop="classify">
         <div v-text="item.classify" v-if="!editStatus"></div>
