@@ -115,7 +115,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="less">
 .el-header {
   height: 60px;
   font-size: 16px;

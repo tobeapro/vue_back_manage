@@ -49,7 +49,7 @@
     }
 </script>
 
-<style lang="scss">
+<style lang="less">
 .user-manage{
   .user-list{
       display:flex;

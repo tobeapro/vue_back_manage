@@ -136,7 +136,7 @@ export default{
   }
 }
 </script>
-<style lang = "scss">
+<style lang = "less">
 .personal-info{
   padding:20px 0;
   background-color:#fff;

@@ -16,7 +16,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="less">
   .home{
     padding:20px;
     background: #fff;

@@ -153,7 +153,7 @@ export default{
   }
 }
 </script>
-<style lang = "scss" scoped>
+<style lang = "less" scoped>
 /deep/ .reply-content{
   display: flex;
   align-items: center;
